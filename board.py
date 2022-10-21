@@ -1,11 +1,10 @@
 # testing numpy for extracting the board
 
 import chess
-from chess.svg import board
 import re
 import numpy as np
 
-
+#push
 board = chess.Board()
 holder = str(board)
 print(holder)
