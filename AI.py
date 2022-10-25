@@ -1,3 +1,16 @@
+'''
+a couple of assumptions for other parts not done yet:
+piece names - pawn bishop rook horse queen king
+valid move check - validMove()
+
+proccess: random move -> assign evaluation to the move -> put in binary tree -> continue for all moves ->
+eval n number of furture moves for all previous moves -> put in binary tree -> parse tree to find move with lowest/highest eval
+
+stuff done: piece bias and eval of each piece
+
+stuff needed: functuion to create random legal moves, function to create binary tree with eval nums,  
+function to search binary tree to find the highest/lowest eval total
+'''
 wPawnBias = [
         [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
         [5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0],
@@ -99,3 +112,4 @@ def pieceVal(piece,color,x,y):
             return 900 + wKingBias[x][y]
         elif color =='b':
             return -900 - bKingBias[x][y]
+
