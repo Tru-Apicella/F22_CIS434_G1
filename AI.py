@@ -9,7 +9,7 @@ eval n number of furture moves for all previous moves -> put in binary tree -> p
 stuff done: piece bias and eval of each piece
 
 stuff needed: functuion to create random legal moves, function to create binary tree with eval nums,  
-function to search binary tree to find the highest/lowest eval total
+function to search binary tree to find the highest/lowest eval total, and probably add alpha beta pruning
 '''
 wPawnBias = [
         [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
@@ -107,9 +107,17 @@ def pieceVal(piece,color,x,y):
             return 90 + queenBias[x][y]
         elif color =='b':
             return -90 - queenBias[x][y]
-    if piece == 'kign':
+    if piece == 'king':
         if color == 'w':
             return 900 + wKingBias[x][y]
         elif color =='b':
             return -900 - bKingBias[x][y]
 
+def randomMove():
+    print ('placeholder')
+
+def createTree():
+    print('placeholder')
+
+def searchTree():
+    print('placeholder')
