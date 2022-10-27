@@ -42,24 +42,6 @@ def load_images():
     IMAGES['k'] = p.transform.scale(p.image.load("images_1/bK.png"), (SQ_SIZE,SQ_SIZE))
 
 
-def main():
-    p.init()
-    screen = p.display.set_mode((WIDTH,HEIGHT))
-    clock = p.time.Clock()
-    screen.fill(p.Color("White"))
-    load_images()
-    board_state = board_init()
-    print(board_state)
-    running = True
-    while running:
-        for e in p.event.get():
-            if e.type == p.QUIT:
-                running = False
-
-        draw_game_state(screen,board_state)
-        clock.tick(FPS)
-        p.display.flip()
-
 def draw_game_state(screen,board):
    draw_board(screen)
 
@@ -81,9 +63,3 @@ def draw_pieces(screen, board):
             piece = board[r][c]
             if piece != ".":
                 screen.blit(IMAGES[piece], p.Rect(c * SQ_SIZE, r * SQ_SIZE, SQ_SIZE, SQ_SIZE))
-
-
-
-
-if __name__ == "__main__":
-    main()
