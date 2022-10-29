@@ -1,3 +1,5 @@
+import board
+import game
 '''
 a couple of assumptions for other parts not done yet:
 piece names - pawn bishop rook horse queen king
@@ -8,7 +10,7 @@ stuff done: piece bias and eval of each piece
 stuff needed: functuion to create random legal moves, function to create binary tree with eval nums,  
 function to search binary tree to find the highest/lowest eval total, and probably add alpha beta pruning
 '''
-wPawnBias = [
+PBias = [
         [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
         [5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0],
         [1.0,  1.0,  2.0,  3.0,  3.0,  2.0,  1.0,  1.0],
@@ -18,9 +20,9 @@ wPawnBias = [
         [0.5,  1.0, 1.0,  -2.0, -2.0,  1.0,  1.0,  0.5],
         [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0]
     ]
-bPawnBias = wPawnBias[::-1]
+pBias = PBias[::-1]
 
-wRookBias = [
+RBias = [
     [  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
     [  0.5,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  0.5],
     [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
@@ -30,9 +32,9 @@ wRookBias = [
     [ -0.5,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -0.5],
     [  0.0,   0.0, 0.0,  0.5,  0.5,  0.0,  0.0,  0.0]
 ]
-bRookBias = wRookBias[::-1]
+rBias = RBias[::-1]
 
-wBishopBias = [
+BBias = [
     [ -2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0],
     [ -1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
     [ -1.0,  0.0,  0.5,  1.0,  1.0,  0.5,  0.0, -1.0],
@@ -42,9 +44,9 @@ wBishopBias = [
     [ -1.0,  0.5,  0.0,  0.0,  0.0,  0.0,  0.5, -1.0],
     [ -2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0]
 ]
-bBishopBias = wBishopBias[::-1]
+bBias = BBias[::-1]
 
-horseBias = [
+nBias = [
         [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0],
         [-4.0, -2.0,  0.0,  0.0,  0.0,  0.0, -2.0, -4.0],
         [-3.0,  0.0,  1.0,  1.5,  1.5,  1.0,  0.0, -3.0],
@@ -55,7 +57,7 @@ horseBias = [
         [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0]
     ]
 
-queenBias = [
+qBias = [
     [ -2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0],
     [ -1.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0, -1.0],
     [ -1.0,  0.0,  0.5,  0.5,  0.5,  0.5,  0.0, -1.0],
@@ -66,7 +68,7 @@ queenBias = [
     [ -2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0]
 ]
 
-wKingBias = [
+KBias = [
     [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
     [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
     [ -3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
@@ -76,39 +78,39 @@ wKingBias = [
     [  2.0,  2.0,  0.0,  0.0,  0.0,  0.0,  2.0,  2.0 ],
     [  2.0,  3.0,  1.0,  0.0,  0.0,  1.0,  3.0,  2.0 ]
 ]
-bKingBias = wKingBias[::-1]
+kBias = KBias[::-1]
 
 def pieceVal(piece,color,x,y):
-    if piece == 'pawn':
+    if piece == 'p' or 'P':
         if color == 'w':
-            return 10 + wPawnBias[x][y]
+            return 10 + PBias[x][y]
         elif color =='b':
-            return -10 - bPawnBias[x][y]
-    elif piece == 'rook':
+            return -10 - pBias[x][y]
+    elif piece == 'r' or 'R':
         if color == 'w':
-            return 50 + wRookBias[x][y]
+            return 50 + RBias[x][y]
         elif color =='b':
-            return -50 - bRookBias[x][y]
-    elif piece == 'horse':
+            return -50 - rBias[x][y]
+    elif piece == 'n' or 'N':
         if color == 'w':
-            return 30 + horseBias[x][y]
+            return 30 + nBias[x][y]
         elif color =='b':
-            return -30 - horseBias[x][y]
-    elif piece == 'bishop':
+            return -30 - nBias[x][y]
+    elif piece == 'b' or 'B':
         if color == 'w':
-            return 30 + wBishopBias[x][y]
+            return 30 + BBias[x][y]
         elif color =='b':
-            return -30 - bBishopBias[x][y]
-    elif piece == 'queen':
+            return -30 - bBias[x][y]
+    elif piece == 'q' or 'Q':
         if color == 'w':
-            return 90 + queenBias[x][y]
+            return 90 + qBias[x][y]
         elif color =='b':
-            return -90 - queenBias[x][y]
-    if piece == 'king':
+            return -90 - qBias[x][y]
+    if piece == 'k' or 'K':
         if color == 'w':
-            return 900 + wKingBias[x][y]
+            return 900 + KBias[x][y]
         elif color =='b':
-            return -900 - bKingBias[x][y]
+            return -900 - kBias[x][y]
 
 def randomMove():
     print ('placeholder')
