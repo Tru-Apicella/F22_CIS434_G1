@@ -58,7 +58,7 @@ if __name__ == "__main__":
     clock = p.time.Clock()
     screen.fill(p.Color("White"))
     br.load_images()
-    board_state = br.board_init(board)
+    board_state = br.board_init()
     running = True
     while running:
         for e in p.event.get():
@@ -71,4 +71,4 @@ if __name__ == "__main__":
         game_status(board)
         move = "a2a3"
         check_legal(move)
-        board_state = br.board_init(board)
+        board_state = br.board_init()
