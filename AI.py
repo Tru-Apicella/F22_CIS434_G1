@@ -1,5 +1,6 @@
-import board
+import board as br
 import game
+import chess
 '''
 a couple of assumptions for other parts not done yet:
 piece names - pawn bishop rook horse queen king
@@ -112,12 +113,34 @@ def pieceVal(piece,color,x,y):
         elif color =='b':
             return -900 - kBias[x][y]
 
-def randomMove():
-    print ('placeholder')
+class Piece:
+    piece = '0'
+    pos = '0'
+
+def createMove(board):
+    x = 0
+    moves = []
+    while(True):
+        try:
+            moves.append(str(list(board.legal_moves)[x]))
+            x+=1
+        except:
+            break
+    
+    origPos = []
+    newPos = []
+    for i in moves:
+        origPos.append(i[:2])
+    for i in moves:
+        newPos.append(i[2:])
+    p1 = [0]*len(moves)
+    p1[0] = Piece()
+    p1[0].pos = origPos[0]
+    #need to figure out how to get the position to work with the piece_at function
+    p1.piece = board.piece_at(chess.origPos[0])
 
 def createTree():
     print('placeholder')
 
 def searchTree():
     print('placeholder')
-print("teting")
