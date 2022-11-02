@@ -60,10 +60,31 @@ if __name__ == "__main__":
     br.load_images()
     board_state = br.board_init(board)
     running = True
+    square_selected = () # last click of the player
+    playerInput = []
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
+            elif e.type == p.MOUSEBUTTONDOWN:
+                    location = p.mouse.get_pos()
+                    col = location[0]//SQ_SIZE
+                    row = location[1]//SQ_SIZE
+                    if square_selected == (row,col):
+                        square_selected = () # reset square
+                        playerInput = [] # reset input
+                    else:
+                        square_selected = (row,col)
+                        playerInput.append(square_selected)
+                    if len(playerInput) == 2:
+                        from_pos = br.board_position(playerInput[0][0],playerInput[0][1])
+                        to_pos = br.board_position(playerInput[1][0],playerInput[1][1])
+                        whole_pos = from_pos + to_pos
+                        check_legal(whole_pos)
+                        square_selected = ()  # reset square
+                        playerInput = [] # reset input
+
+
 
         br.draw_game_state(screen, board_state)
         clock.tick(FPS)
