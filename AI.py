@@ -116,19 +116,20 @@ def pieceVal(piece,color,x,y):
 class Piece:
     piece = '0'
     pos = '0'
+    nextPos = '0'
 
 def convertPos(i):
-    if i ==8 or i =='a':return 0
-    if i ==7 or i =='b':return 1
-    if i ==6 or i =='c':return 2
-    if i ==5 or i =='d':return 3
-    if i ==4 or i =='e':return 4
-    if i ==3 or i =='f':return 5
-    if i ==2 or i =='g':return 6
-    if i ==1 or i =='h':return 7
+    if i =='8' or i =='a':return 0
+    if i =='7' or i =='b':return 1
+    if i =='6' or i =='c':return 2
+    if i =='5' or i =='d':return 3
+    if i =='4' or i =='e':return 4
+    if i =='3' or i =='f':return 5
+    if i =='2' or i =='g':return 6
+    if i =='1' or i =='h':return 7
 
-
-def createMove(board):
+#createMove creates nodes for every move that contain piece current position and next position
+def createMove(board,board_state):
     x = 0
     moves = []
     while(True):
@@ -138,7 +139,7 @@ def createMove(board):
         except:
             break
     
-    origPos, origPos2, newPos, newPos2 = [],[],[],[]
+    origPos, origPos2, newPos, newPos2, posActual,nPosActual = [],[],[],[],[],[]
     tmp = 0
     for i in moves:
         tmp = convertPos(i[:1])
@@ -152,15 +153,19 @@ def createMove(board):
     for i in moves:
         tmp = convertPos(i[3:])
         newPos2.append(tmp)
-    nOrig = [origPos2][origPos]
-    nNew = [newPos2][newPos]
-    nMove = [nOrig][nNew]
+    for i in moves:
+        posActual.append(i[:2])
+    for i in moves:
+        nPosActual.append(i[2:])
     p1 = [0]*len(moves)
-    p1[0] = Piece()
-    p1[0].pos = origPos[0]
-    #need to figure out how to get the position to work with the piece_at function
-    p1[0].piece = board.piece_at(chess.A1)
-    print(p1[0].piece)
+    i = 0
+    while i < len(moves):
+        p1[i] = Piece()
+        p1[i].pos = posActual[i]
+        p1[i].nextPos = nPosActual[i]
+        p1[i].piece = board_state[origPos2[i]][origPos[i]]
+        i+=1
+    print ('PLACEHOLDER')
 
 #another alternate way of moving the piece and checking for legal and illgeal moves??? (could use some code from the createMove and
 # input it into the class ai portion)
