@@ -118,6 +118,17 @@ class Piece:
     pos = '0'
     nextPos = '0'
 
+def searchNodes(p1,moves):
+    p = [0]*len(moves)
+    for x in enumerate(p1):
+        p[x[0]] = Piece()
+        for y in x[1]:
+            if x[1].piece == y.piece:
+                p[x[0]].piece = y.piece
+
+
+
+
 def convertPos(i):
     if i =='8' or i =='a':return 0
     if i =='7' or i =='b':return 1
@@ -165,6 +176,7 @@ def createMove(board,board_state):
         p1[i].nextPos = nPosActual[i]
         p1[i].piece = board_state[origPos2[i]][origPos[i]]
         i+=1
+    searchNodes(p1,moves)
     print ('PLACEHOLDER')
 
 #another alternate way of moving the piece and checking for legal and illgeal moves??? (could use some code from the createMove and
