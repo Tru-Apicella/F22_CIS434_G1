@@ -139,6 +139,24 @@ def createMove(board):
     #need to figure out how to get the position to work with the piece_at function
     p1.piece = board.piece_at(chess.origPos[0])
 
+#another alternate way of moving the piece and checking for legal and illgeal moves??? (could use some code from the createMove and
+# input it into the class ai portion)
+class AI:
+    infinite = 10000000
+    def GetAiMove(chessboard, invalid_moves):
+        best_move = 0
+        best_score = AI.infinite
+        for move in chessboard.get_possible_moves(Piece.Piece.BLACK):
+            if (AI.is_invalid_move(move, invalid_moves)):
+                continue
+
+            #need to put in code to actually move the piceces
+     
+        #checkmate move
+        if (best_move == 0):
+            return 0
+
+
 def createTree():
     print('placeholder')
 
