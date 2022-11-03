@@ -116,18 +116,7 @@ def pieceVal(piece,color,x,y):
 class Piece:
     piece = '0'
     pos = '0'
-    nextPos = '0'
-
-def searchNodes(p1,moves):
-    p = [0]*len(moves)
-    for x in enumerate(p1):
-        p[x[0]] = Piece()
-        for y in x[1]:
-            if x[1].piece == y.piece:
-                p[x[0]].piece = y.piece
-
-
-
+    nextPos = []
 
 def convertPos(i):
     if i =='8' or i =='a':return 0
@@ -170,13 +159,20 @@ def createMove(board,board_state):
         nPosActual.append(i[2:])
     p1 = [0]*len(moves)
     i = 0
+    
     while i < len(moves):
-        p1[i] = Piece()
-        p1[i].pos = posActual[i]
-        p1[i].nextPos = nPosActual[i]
-        p1[i].piece = board_state[origPos2[i]][origPos[i]]
+        count = 0
+        if i != 0:
+            for x in range(i-1):
+                if p1[x].pos == p1[i].pos:
+                    p1[i].append(nPosActual[x])
+                    count+=1
+        if count == 0 or i == 0:
+            p1[i] = Piece()
+            p1[i].pos = posActual[i]
+            p1[i].nextPos.append(nPosActual[i])
+            p1[i].piece = board_state[origPos2[i]][origPos[i]]
         i+=1
-    searchNodes(p1,moves)
     print ('PLACEHOLDER')
 
 #another alternate way of moving the piece and checking for legal and illgeal moves??? (could use some code from the createMove and
