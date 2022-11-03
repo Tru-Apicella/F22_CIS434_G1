@@ -117,6 +117,17 @@ class Piece:
     piece = '0'
     pos = '0'
 
+def convertPos(i):
+    if i ==8 or i =='a':return 0
+    if i ==7 or i =='b':return 1
+    if i ==6 or i =='c':return 2
+    if i ==5 or i =='d':return 3
+    if i ==4 or i =='e':return 4
+    if i ==3 or i =='f':return 5
+    if i ==2 or i =='g':return 6
+    if i ==1 or i =='h':return 7
+
+
 def createMove(board):
     x = 0
     moves = []
@@ -127,17 +138,29 @@ def createMove(board):
         except:
             break
     
-    origPos = []
-    newPos = []
+    origPos, origPos2, newPos, newPos2 = [],[],[],[]
+    tmp = 0
     for i in moves:
-        origPos.append(i[:2])
+        tmp = convertPos(i[:1])
+        origPos.append(tmp)
     for i in moves:
-        newPos.append(i[2:])
+        tmp = convertPos(i[1:2])
+        origPos2.append(tmp)
+    for i in moves:
+        tmp = convertPos(i[2:3])
+        newPos.append(tmp)
+    for i in moves:
+        tmp = convertPos(i[3:])
+        newPos2.append(tmp)
+    nOrig = [origPos2][origPos]
+    nNew = [newPos2][newPos]
+    nMove = [nOrig][nNew]
     p1 = [0]*len(moves)
     p1[0] = Piece()
     p1[0].pos = origPos[0]
     #need to figure out how to get the position to work with the piece_at function
-    p1.piece = board.piece_at(chess.origPos[0])
+    p1[0].piece = board.piece_at(chess.A1)
+    print(p1[0].piece)
 
 #another alternate way of moving the piece and checking for legal and illgeal moves??? (could use some code from the createMove and
 # input it into the class ai portion)
