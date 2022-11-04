@@ -1,5 +1,3 @@
-# testing numpy for extracting the board
-
 import chess
 import re
 import numpy as np
@@ -14,32 +12,42 @@ FPS = 15 # max fps
 IMAGES = {}
 
 #push
-def board_init():
-    board = chess.Board()
+def board_init(board):
     holder = str(board)
-    #print(holder)
     temp = re.split("\n| ", holder)
     final = np.array(temp).reshape(8, 8).tolist()
-    #print(final)
     return final
+
+def board_position(x , y):
+    chess_pos = [
+        ['a8','b8','c8','d8','e8','f8','g8','h8'],
+        ['a7','b7','c7','d7','e7','f7','g7','h7'],
+        ['a6','b6','c6','d6','e6','f6','g6','h6'],
+        ['a5','b5','c5','d5','e5','f5','g5','h5'],
+        ['a4','b4','c4','d4','e4','f4','g4','h4'],
+        ['a3','b3','c3','d3','e3','f3','g3','h3'],
+        ['a2','b2','c2','d2','e2','f2','g2','h2'],
+        ['a1','b1','c1','d1','e1','f1','g1','h1']
+    ]
+    return chess_pos[x][y]
 
 
 # load images
 def load_images():
     # WHITE
     IMAGES['P'] = p.transform.scale(p.image.load("images_1/wp.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['R'] = p.transform.scale(p.image.load("images_1/wR.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['N'] = p.transform.scale(p.image.load("images_1/wN.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['B'] = p.transform.scale(p.image.load("images_1/wB.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['Q'] = p.transform.scale(p.image.load("images_1/wQ.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['K'] = p.transform.scale(p.image.load("images_1/wK.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['R'] = p.transform.scale(p.image.load("images_1/wr.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['N'] = p.transform.scale(p.image.load("images_1/wn.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['B'] = p.transform.scale(p.image.load("images_1/wb.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['Q'] = p.transform.scale(p.image.load("images_1/wq.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['K'] = p.transform.scale(p.image.load("images_1/wk.png"), (SQ_SIZE,SQ_SIZE))
     # BLACK
     IMAGES['p'] = p.transform.scale(p.image.load("images_1/bp.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['r'] = p.transform.scale(p.image.load("images_1/bR.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['n'] = p.transform.scale(p.image.load("images_1/bN.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['b'] = p.transform.scale(p.image.load("images_1/bB.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['q'] = p.transform.scale(p.image.load("images_1/bQ.png"), (SQ_SIZE,SQ_SIZE))
-    IMAGES['k'] = p.transform.scale(p.image.load("images_1/bK.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['r'] = p.transform.scale(p.image.load("images_1/br.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['n'] = p.transform.scale(p.image.load("images_1/bn.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['b'] = p.transform.scale(p.image.load("images_1/bb.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['q'] = p.transform.scale(p.image.load("images_1/bq.png"), (SQ_SIZE,SQ_SIZE))
+    IMAGES['k'] = p.transform.scale(p.image.load("images_1/bk.png"), (SQ_SIZE,SQ_SIZE))
 
 
 def draw_game_state(screen,board):
