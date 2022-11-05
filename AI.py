@@ -2,9 +2,6 @@ import board as br
 import game
 import chess
 '''
-a couple of assumptions for other parts not done yet:
-piece names - pawn bishop rook horse queen king
-valid move check - validMove()
 proccess: random move -> assign evaluation to the move -> put in binary tree -> continue for all moves ->
 eval n number of furture moves for all previous moves -> put in binary tree -> parse tree to find move with lowest/highest eval
 stuff done: piece bias and eval of each piece
@@ -116,7 +113,8 @@ def pieceVal(piece,color,x,y):
 class Piece:
     piece = '0'
     pos = '0'
-    nextPos = []
+    def __init__(self):
+        self.nextPos = []
 
 def convertPos(i):
     if i =='8' or i =='a':return 0
@@ -160,18 +158,20 @@ def createMove(board,board_state):
     p1 = [0]*len(moves)
     i = 0
     
+    createdNode=0
     while i < len(moves):
         count = 0
-        if i != 0:
-            for x in range(i-1):
-                if p1[x].pos == p1[i].pos:
-                    p1[i].append(nPosActual[x])
+        for x in range(createdNode):
+            if x!=i:
+                if p1[x].pos == posActual[i]:
+                    (p1[x].nextPos).append(nPosActual[i])
                     count+=1
         if count == 0 or i == 0:
-            p1[i] = Piece()
-            p1[i].pos = posActual[i]
-            p1[i].nextPos.append(nPosActual[i])
-            p1[i].piece = board_state[origPos2[i]][origPos[i]]
+            p1[createdNode] = Piece()
+            p1[createdNode].pos = posActual[i]
+            (p1[createdNode].nextPos).append(nPosActual[i])
+            p1[createdNode].piece = board_state[origPos2[i]][origPos[i]]
+            createdNode+=1
         i+=1
     print ('PLACEHOLDER')
 
