@@ -78,43 +78,41 @@ KBias = [
 ]
 kBias = KBias[::-1]
 
-def pieceVal(piece,color,x,y):
-    if piece == 'p' or 'P':
-        if color == 'w':
-            return 10 + PBias[x][y]
-        elif color =='b':
-            return -10 - pBias[x][y]
-    elif piece == 'r' or 'R':
-        if color == 'w':
-            return 50 + RBias[x][y]
-        elif color =='b':
-            return -50 - rBias[x][y]
-    elif piece == 'n' or 'N':
-        if color == 'w':
-            return 30 + nBias[x][y]
-        elif color =='b':
-            return -30 - nBias[x][y]
-    elif piece == 'b' or 'B':
-        if color == 'w':
-            return 30 + BBias[x][y]
-        elif color =='b':
-            return -30 - bBias[x][y]
-    elif piece == 'q' or 'Q':
-        if color == 'w':
-            return 90 + qBias[x][y]
-        elif color =='b':
-            return -90 - qBias[x][y]
-    if piece == 'k' or 'K':
-        if color == 'w':
-            return 900 + KBias[x][y]
-        elif color =='b':
-            return -900 - kBias[x][y]
+def pieceVal(piece,x,y):
+    if piece == 'P':
+        return 10 + PBias[x][y]
+    elif piece =='p':
+        return -10 - pBias[x][y]
+    elif piece == 'R':
+        return 50 + RBias[x][y]
+    elif piece =='r':
+        return -50 - rBias[x][y]
+    elif piece == 'N':
+        return 30 + nBias[x][y]
+    elif piece =='n':
+        return -30 - nBias[x][y]
+    elif piece == 'B':
+        return 30 + BBias[x][y]
+    elif piece =='b':
+        return -30 - bBias[x][y]
+    elif piece == 'Q':
+        return 90 + qBias[x][y]
+    elif piece =='q':
+        return -90 - qBias[x][y]
+    elif piece == 'K':
+        return 900 + KBias[x][y]
+    elif piece =='k':
+        return -900 - kBias[x][y]
 
 class Piece:
-    piece = '0'
-    pos = '0'
     def __init__(self):
+        self.pos = '0'
+        self.piece = '0'
         self.nextPos = []
+        self.x = []
+        self.y = []
+        self.eval = []
+        self.nodes = []
 
 def convertPos(i):
     if i =='8' or i =='a':return 0
@@ -165,15 +163,19 @@ def createMove(board,board_state):
             if x!=i:
                 if p1[x].pos == posActual[i]:
                     (p1[x].nextPos).append(nPosActual[i])
+                    (p1[x].x).append(newPos2[i])
+                    (p1[x].y).append(newPos[i])
                     count+=1
         if count == 0 or i == 0:
             p1[createdNode] = Piece()
             p1[createdNode].pos = posActual[i]
             (p1[createdNode].nextPos).append(nPosActual[i])
             p1[createdNode].piece = board_state[origPos2[i]][origPos[i]]
+            (p1[createdNode].x).append(newPos2[i])
+            (p1[createdNode].y).append(newPos[i])
             createdNode+=1
         i+=1
-    print ('PLACEHOLDER')
+    createTree(p1,createdNode)
 
 #another alternate way of moving the piece and checking for legal and illgeal moves??? (could use some code from the createMove and
 # input it into the class ai portion)
@@ -193,8 +195,12 @@ class AI:
             return 0
 
 
-def createTree():
-    print('placeholder')
+def createTree(p1,createdNode):
+    for x in range(createdNode):
+        for y in range(len(p1[x].x)):
+            p1[x].eval.append(pieceVal(p1[x].piece, p1[x].x[y],p1[x].y[y]))
+    game.check_legal((p1[0].pos+p1[0].nextPos[0]),p1[0].pos,p1[0].nextPos[0],p1[0].x[0],p1[0].y[0])
+
 
 def searchTree():
     print('placeholder')
