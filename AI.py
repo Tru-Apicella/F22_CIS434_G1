@@ -199,7 +199,9 @@ def createTree(p1,createdNode):
     for x in range(createdNode):
         for y in range(len(p1[x].x)):
             p1[x].eval.append(pieceVal(p1[x].piece, p1[x].x[y],p1[x].y[y]))
-    game.check_legal((p1[0].pos+p1[0].nextPos[0]),p1[0].pos,p1[0].nextPos[0],p1[0].x[0],p1[0].y[0])
+    board = game.check_legal((p1[0].pos+p1[0].nextPos[0]),p1[0].pos,p1[0].nextPos[0],p1[0].x[0],p1[0].y[0])
+    board_state = br.board_init(board)
+    print("smthing")
 
 
 def searchTree():

@@ -4,6 +4,7 @@ import re
 import random
 import board as br
 import pygame as p
+import AI
 
 WIDTH = 512
 HEIGHT = 512
@@ -42,7 +43,7 @@ def check_legal(move , from_pos , to_pos, y, z):
     if chess.Move.from_uci(move) in board.legal_moves:
         print(list(board.legal_moves))
         board.push_san(move)
-        return 1
+        return board
     else:
         print(list(board.legal_moves))
         print("not legal")
