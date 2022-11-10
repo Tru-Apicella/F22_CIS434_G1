@@ -71,7 +71,7 @@ def game_status(board):
         msg = "draw: claim"
         print(msg)
 
-if __name__ == "__main__":
+def main():
     p.init()
     x = 0
     screen = p.display.set_mode((WIDTH, HEIGHT))
@@ -113,10 +113,13 @@ if __name__ == "__main__":
                         square_selected = ()  # reset square
                         playerInput = [] # reset input
 
-
-
+        board_state = br.board_init(board)
         br.draw_game_state(screen, board_state)
         clock.tick(FPS)
         p.display.flip()
         game_status(board)
-        board_state = br.board_init(board)
+
+
+
+if __name__ == "__main__":
+    main()
