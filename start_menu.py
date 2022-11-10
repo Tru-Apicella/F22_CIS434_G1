@@ -1,5 +1,5 @@
 import pygame
-
+import game as g
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 screen.fill((0, 180, 210))
@@ -76,6 +76,7 @@ while run:
                 if start_button.is_over(mouse_position):
                     print("clicked the button")
                     game_state = "game"
+                    g.main() # call main class
                 if quit_button.is_over(mouse_position):
                     print("clicked the 2button")
                     run = False
