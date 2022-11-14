@@ -177,24 +177,6 @@ def createMove(board,board_state):
         i+=1
     createTree(p1,createdNode)
 
-#another alternate way of moving the piece and checking for legal and illgeal moves??? (could use some code from the createMove and
-# input it into the class ai portion)
-class AI:
-    infinite = 10000000
-    def GetAiMove(chessboard, invalid_moves):
-        best_move = 0
-        best_score = AI.infinite
-        for move in chessboard.get_possible_moves(Piece.Piece.BLACK):
-            if (AI.is_invalid_move(move, invalid_moves)):
-                continue
-
-            #need to put in code to actually move the piceces
-     
-        #checkmate move
-        if (best_move == 0):
-            return 0
-
-
 def createTree(p1,createdNode):
     for x in range(createdNode):
         for y in range(len(p1[x].x)):
@@ -204,5 +186,19 @@ def createTree(p1,createdNode):
     print("smthing")
 
 
-def searchTree():
+#starting on traverse tree and finding the best move for the pieces
+def searchTree(self,createdNode) :
+    if createdNode.p1:
+        for createdNode in createdNode.p1 :
+        #need to add line of code here, cant find right word rn will do later
+            
+        #If the depth is divisible by 2, it's a move for the AI's side, so return max eval points
+         if createdNode.pos[0].depth % 2 == 1 :
+            return(max(createdNode).pieceVal)
+        else :
+            return(min(createdNode).pieceVal)
+    else :
+        return createdNode.pieceVal
+
+
     print('placeholder')
