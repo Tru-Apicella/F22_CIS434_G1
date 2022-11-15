@@ -27,6 +27,7 @@ def update_board(board):
 def check_legal(move , from_pos , to_pos, y, z):
     check_promo = board_state[z][y]
     print(check_promo)
+    print(y,z)
     if check_promo == 'p':
         if to_pos in promotion_pos:
             print("we in")
@@ -101,8 +102,18 @@ def main():
                         from_pos = br.board_position(playerInput[0][0],playerInput[0][1])
                         to_pos = br.board_position(playerInput[1][0],playerInput[1][1])
                         x = 0
-                        z = playerInput[0][0]
-                        y = playerInput[0][1]
+                        z_from = playerInput[0][0]
+                        y_from = playerInput[0][1]
+                        z = playerInput[1][0]
+                        y = playerInput[1][1]
+                        check_pawn  = board_state[z_from][y_from]
+                        print(check_pawn)
+                        if check_pawn == 'p':
+                            z = z_from
+                            y = y_from
+                        elif check_pawn == 'P':
+                            z = z_from
+                            y = y_from
                         whole_pos = from_pos + to_pos
                         print(whole_pos)
                         check_legal(whole_pos , from_pos, to_pos, y,z)
