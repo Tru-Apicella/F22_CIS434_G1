@@ -28,7 +28,7 @@ class Button:
                          (self.x, self.y, self.width, self.height), 0)
 
         if self.text != '':
-            font = pygame.font.SysFont('Verdana', 60)
+            font = pygame.font.SysFont('Verdana', 20)
             text = font.render(self.text, 1, (0, 0, 0))
             window.blit(text, (self.x + (self.width / 2 - text.get_width() / 2),
                         self.y + (self.height / 2 - text.get_height() / 2)))
@@ -43,7 +43,8 @@ class Button:
 
 def redraw_menu_window():
     screen.fill((153, 141, 141))
-    start_button.draw(screen, (0, 0, 0))
+    vs_player_btn.draw(screen, (0, 0, 0))
+    vs_AI_btn.draw(screen, (0, 0, 0))
     quit_button.draw(screen, (0, 0, 0))
 
 
@@ -51,7 +52,8 @@ def redraw_game_window():
     screen.fill((0, 0, 0))
 
 
-start_button = Button((38, 74, 56), 100, 200, 250, 100, "Start")
+vs_player_btn = Button((38, 74, 56), 100, 200, 250, 100, "Player Vs. Player")
+vs_AI_btn = Button((38, 74, 56), 450, 200, 250, 100, "Player Vs. Computer")
 quit_button = Button((138, 55, 55), 450, 200, 250, 100, "Quit")
 
 game_state = "menu"
@@ -73,10 +75,10 @@ while run:
 
         if game_state == "menu":
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if start_button.is_over(mouse_position):
+                if vs_player_btn.is_over(mouse_position):
                     print("clicked the button")
                     game_state = "game"
-                    g.main() # call main class
+                    g.main()  # call main class
                 if quit_button.is_over(mouse_position):
                     print("clicked the 2button")
                     run = False
@@ -84,10 +86,10 @@ while run:
                     quit()
 
             if event.type == pygame.MOUSEMOTION:
-                if start_button.is_over(mouse_position):
-                    start_button.color = (105, 105, 105)
+                if vs_player_btn.is_over(mouse_position):
+                    vs_player_btn.color = (105, 105, 105)
                 else:
-                    start_button.color = (38, 74, 56)
+                    vs_player_btn.color = (38, 74, 56)
                 if quit_button.is_over(mouse_position):
                     quit_button.color = (105, 105, 105)
                 else:
