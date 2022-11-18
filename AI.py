@@ -127,7 +127,7 @@ def convertPos(i):
     if i =='1' or i =='h':return 7
 
 #createMove creates nodes for every move that contain piece current position and next position
-def createMove(board,board_state):
+def createMove(board,board_state,det):
     x = 0
     moves = []
     while(True):
@@ -167,6 +167,7 @@ def createMove(board,board_state):
                     (p1[x].nextPos).append(nPosActual[i])
                     (p1[x].x).append(newPos2[i])
                     (p1[x].y).append(newPos[i])
+                    (p1[x].boards).append(board_state)
                     count+=1
         if count == 0 or i == 0:
             p1[createdNode] = Piece()
@@ -178,21 +179,23 @@ def createMove(board,board_state):
             (p1[createdNode].boards).append(board_state)
             createdNode+=1
         i+=1
-    return p1,createdNode
+    if det == 0:
+        return p1,createdNode
+    elif det ==1:
+        return p1
 
 def createTree(board,board_state):
     for depth in range(5):
-        p1, createdNode = createMove(board,board_state)
+        p1, createdNode = createMove(board,board_state,0)
         for x in range(createdNode):
             for y in range(len(p1[x].x)):
                 p1[x].eval.append(pieceVal(p1[x].piece, p1[x].x[y],p1[x].y[y]))
+        
         for x in range(createdNode):
-            for y in range(len(p1[x].x)):
-                board = game.check_legal((p1[x].pos+p1[x].nextPos[y]),p1[x].pos,p1[x].nextPos[y],p1[x].x[y],p1[x].y[y])
-                board_state = br.board_init(board)
-                (p1[x].nodes).append(createMove(board,board_state))
-            
-    createMove(board, board_state)
+            board = game.check_legal((p1[x].pos+p1[x].nextPos[0]),p1[x].pos,p1[x].nextPos[0],p1[x].x[0],p1[x].y[0])
+            board_state = br.board_init(board)
+            for y in range(len(p1[x].x)):  
+                (p1[x].nodes).append(createMove(board,board_state,1))
     print("smthing")
 
 
