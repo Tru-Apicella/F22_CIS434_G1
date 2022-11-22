@@ -26,7 +26,7 @@ def update_board(board):
     return returned
 
 
-def check_legal(move, from_pos, to_pos, y, z):
+def check_legal(move, from_pos, to_pos, y, z, board,board_state):
     check_promo = board_state[z][y]
     print(check_promo)
     print(y, z)
@@ -124,7 +124,7 @@ def main():
                         y = y_from
                     whole_pos = from_pos + to_pos
                     print(whole_pos)
-                    check_legal(whole_pos, from_pos, to_pos, y, z)
+                    check_legal(whole_pos, from_pos, to_pos, y, z,board, board_state)
                     if (board.turn == chess.WHITE):
                         print("white")
                     else:
@@ -134,6 +134,7 @@ def main():
 
         board_state = br.board_init(board)
         br.draw_game_state(screen, board_state)
+        #AI.createTree(board, board_state,0)    for testing
         clock.tick(FPS)
         p.display.flip()
         game_status(board)

@@ -184,19 +184,32 @@ def createMove(board,board_state,det):
     elif det ==1:
         return p1
 
-def createTree(board,board_state):
-    for depth in range(5):
-        p1, createdNode = createMove(board,board_state,0)
-        for x in range(createdNode):
-            for y in range(len(p1[x].x)):
-                p1[x].eval.append(pieceVal(p1[x].piece, p1[x].x[y],p1[x].y[y]))
-        
-        for x in range(createdNode):
-            board = game.check_legal((p1[x].pos+p1[x].nextPos[0]),p1[x].pos,p1[x].nextPos[0],p1[x].x[0],p1[x].y[0])
-            board_state = br.board_init(board)
-            for y in range(len(p1[x].x)):  
-                (p1[x].nodes).append(createMove(board,board_state,1))
-    print("smthing")
+def createTree(board,board_state, depth):
+    p1, createdNode = createMove(board,board_state,0)
+    p1 = createEval(p1, createdNode)
+
+    for x in range(createdNode):
+        #i = 0    
+        for y in range(len(p1[x].x)):
+            if depth < 5:
+                nboard = game.check_legal((p1[x].pos+p1[x].nextPos[y]),p1[x].pos,p1[x].nextPos[y],p1[x].y[y],p1[x].x[y],board, board_state)
+                nboard_state = br.board_init(nboard)
+                depth+=1
+                tmp,depth = (createTree(nboard, nboard_state,depth))
+                (p1[x].nodes).append(tmp)
+            elif depth == 5:
+                depth-=1
+                return p1, depth
+
+
+
+
+def createEval(p1, createdNode):
+    for x in range(createdNode):
+        for y in range(len(p1[x].x)):
+            p1[x].eval.append(pieceVal(p1[x].piece, p1[x].x[y],p1[x].y[y]))
+    return p1
+
 
 
 #starting on traverse tree and finding the best move for the pieces
