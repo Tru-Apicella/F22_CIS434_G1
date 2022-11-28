@@ -189,7 +189,6 @@ def createTree(board,board_state, depth):
     p1 = createEval(p1, createdNode)
 
     for x in range(createdNode):
-        #i = 0    
         for y in range(len(p1[x].x)):
             if depth < 5:
                 nboard = game.check_legal((p1[x].pos+p1[x].nextPos[y]),p1[x].pos,p1[x].nextPos[y],p1[x].y[y],p1[x].x[y],board, board_state)
@@ -200,9 +199,31 @@ def createTree(board,board_state, depth):
             elif depth == 5:
                 depth-=1
                 return p1, depth
+            
+def newCreateTree(position, next_position, b, a, board, board_state, depth):
+    r = brd()
+    if depth == 0:
+        r.nboard = board
+        r.nboard_state = board_state
+    else:
+        r.nboard = game.check_legal((position+next_position), position, next_position, b, a, board, board_state)
+        r.nboard_state = br.board_init(r.nboard)
+    p1, createdNode = createMove(r.nboard,r.nboard_state,0)
+    p1 = createEval(p1, createdNode)
+    for x in range(createdNode):
+        for y in range(len(p1[x].x)):
+            if depth < 5:
+                depth+=1
+                tmp,depth = newCreateTree(p1[x].pos,p1[x].nextPos[y],p1[x].y[y],p1[x].x[y],r.nboard, r.nboard_state, depth)
+                (p1[x].nodes).append(tmp)
+            elif depth == 5:
+                depth-=1
+                return p1, depth
 
-
-
+class brd:
+    def __init__(self):
+        self.nboard = 0
+        self.nboard_state = 0
 
 def createEval(p1, createdNode):
     for x in range(createdNode):

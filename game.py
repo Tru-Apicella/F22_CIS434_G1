@@ -134,7 +134,8 @@ def main():
 
         board_state = br.board_init(board)
         br.draw_game_state(screen, board_state)
-        #AI.createTree(board, board_state,0)    for testing
+        #AI.newCreateTree(0,0,0,0,board, board_state,0)
+        #AI.createTree(board, board_state,0)
         clock.tick(FPS)
         p.display.flip()
         game_status(board)
