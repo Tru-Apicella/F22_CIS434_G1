@@ -1,4 +1,3 @@
-import board as br
 import game
 import random
 
@@ -174,7 +173,7 @@ def createMove(board,board_state,det):
                     (p1[x].x).append(newPos2[i])
                     (p1[x].y).append(newPos[i])
                     nboard = game.check_legal((p1[x].pos+p1[x].nextPos[-1]),p1[x].pos,p1[x].nextPos[-1],p1[x].y[-1],p1[x].x[-1],board, board_state)
-                    nboard_state = br.board_init(nboard)
+                    nboard_state = game.br.board_init(nboard)
                     (p1[x].boards).append(nboard_state)
                     board.pop()
                     count+=1
@@ -186,7 +185,7 @@ def createMove(board,board_state,det):
             (p1[createdNode].x).append(newPos2[i])
             (p1[createdNode].y).append(newPos[i])
             nboard = game.check_legal((p1[createdNode].pos+p1[createdNode].nextPos[0]),p1[createdNode].pos,p1[createdNode].nextPos[0],p1[createdNode].y[0],p1[createdNode].x[0],board, board_state)
-            nboard_state = br.board_init(nboard)
+            nboard_state = game.br.board_init(nboard)
             (p1[createdNode].boards).append(nboard_state)
             board.pop()
             createdNode+=1
@@ -206,7 +205,7 @@ def createTree(board,board_state, depth,iters):
         for y in range(len(p1[x].x)):
             if depth < 2:
                 nboard = game.check_legal((p1[x].pos+p1[x].nextPos[y]),p1[x].pos,p1[x].nextPos[y],p1[x].y[y],p1[x].x[y],board, board_state)
-                nboard_state = br.board_init(nboard)
+                nboard_state = game.br.board_init(nboard)
                 depth+=1
                 tmp,depth = (createTree(nboard, nboard_state,depth,iters))
                 depth-=1

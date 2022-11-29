@@ -122,6 +122,7 @@ def main(type):
                         x = x + 1
                         print(x)
                         square_selected = (row, col)
+                        br.highlightSquares(screen, board_state,board.legal_moves,square_selected)
                         playerInput.append(square_selected)
                     if len(playerInput) == 2:
                         from_pos = br.board_position(
@@ -184,4 +185,4 @@ def main(type):
 
 # call main to avoid any errors
 if __name__ == "__main__":
-    main()
+    main(0)
