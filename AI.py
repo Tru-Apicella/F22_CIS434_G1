@@ -119,6 +119,14 @@ def convertPos(i):
     if i =='2' or i =='g':return 6
     if i =='1' or i =='h':return 7
 
+
+
+#randomizes all the moves the legal move the ai can make
+def getRandomMove(self):
+        legalMoves = list(game.check_legal)
+        randomMove = random.choice(legalMoves)
+        return randomMove
+
 #createMove creates nodes for every move that contain piece current position and next position
 def createMove(board,board_state,det):
     x = 0
@@ -225,10 +233,12 @@ def otherSearchTree(p1):
     return highest, bestPos,bestNPos
 
 
-#created tree of the best moves for ai & randomizes the move so ai doesnt choice same thing everytime
+#created tree of the best moves for ai & randomizes the best move so ai doesnt choice same thing everytime
 def getBestMove(self):
         bestMove = self.otherSearchTree(createTree)
         randombestMove = random.choice(bestMove)
         return randombestMove
+
+
 
 
