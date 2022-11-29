@@ -196,12 +196,30 @@ def createTree(board,board_state, depth,iters):
         return p1,depth
     
     print("placeholder")
+    otherSearchTree(p1)
 
 def createEval(p1, createdNode):
     for x in range(createdNode):
         for y in range(len(p1[x].x)):
             p1[x].eval.append(pieceVal(p1[x].piece, p1[x].x[y],p1[x].y[y]))
     return p1
+
+def otherSearchTree(p1):
+    if p1[0].nodes:
+        for x in enumerate(p1):
+            for y in enumerate(x[1].nodes):
+                highest, bestPos,bestNPos = otherSearchTree(y[1])
+                x[1].eval[y[0]] = highest+x[1].eval[y[0]]
+    highest = -9999  
+    for x in p1:
+        if highest < max(x.eval):
+            highest = max(x.eval)
+            bestPos = x.pos
+            for y in enumerate(x.eval):
+                if y[1] == highest:
+                    bestNPos = x.nextPos[y[0]]
+    return highest, bestPos,bestNPos
+
 
 
 
