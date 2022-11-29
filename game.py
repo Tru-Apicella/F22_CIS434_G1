@@ -30,6 +30,7 @@ def check_legal(move, from_pos, to_pos, y, z, board,board_state):
     check_promo = board_state[z][y]
     print(check_promo)
     print(y, z)
+    # check if the piece moving is a pawn to change the input for promotion
     if check_promo == 'p':
         if to_pos in promotion_pos:
             print("we in")
@@ -51,7 +52,7 @@ def check_legal(move, from_pos, to_pos, y, z, board,board_state):
         print(list(board.legal_moves))
         print("not legal")
 
-
+# this function has no use currently, but it did help with debugging earlier
 def random_move(board):
     move_holder = list(board.legal_moves)
     move_returned = random.choice(move_holder)
@@ -59,6 +60,7 @@ def random_move(board):
 
 
 def game_status(board):
+    # using is_ functions to check for relevant game rules
     if board.is_checkmate():
         msg = "checkmate: " + str(not board.turn) + " wins!"
         result = not board.turn
@@ -84,6 +86,7 @@ def main():
     screen = p.display.set_mode((WIDTH, HEIGHT))
     clock = p.time.Clock()
     screen.fill(p.Color("White"))
+    # load images once to avoid consuming resources
     br.load_images()
     running = True
     square_selected = ()  # last click of the player
@@ -92,10 +95,12 @@ def main():
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
+            # take input using pygame function then converting to actual 2d board position
             elif e.type == p.MOUSEBUTTONDOWN:
                 location = p.mouse.get_pos()
                 col = location[0]//SQ_SIZE
                 row = location[1]//SQ_SIZE
+                # taking the input and splitting it between from, to, and pawn position if needed
                 if square_selected == (row, col):
                     square_selected = ()  # reset square
                     playerInput = []  # reset input
@@ -125,13 +130,14 @@ def main():
                     whole_pos = from_pos + to_pos
                     print(whole_pos)
                     check_legal(whole_pos, from_pos, to_pos, y, z,board, board_state)
+                    # print whose turn it is for better debugging and player experince
                     if (board.turn == chess.WHITE):
                         print("white")
                     else:
                         print("black")
                     square_selected = ()  # reset square
                     playerInput = []  # reset input
-
+        # loop for updating the game board and screen
         board_state = br.board_init(board)
         br.draw_game_state(screen, board_state)
         #AI.newCreateTree(0,0,0,0,board, board_state,0)
@@ -140,6 +146,6 @@ def main():
         p.display.flip()
         game_status(board)
 
-
+# call main to avoid any errors
 if __name__ == "__main__":
     main()
