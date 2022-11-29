@@ -1,13 +1,5 @@
 import board as br
 import game
-import chess
-'''
-proccess: random move -> assign evaluation to the move -> put in binary tree -> continue for all moves ->
-eval n number of furture moves for all previous moves -> put in binary tree -> parse tree to find move with lowest/highest eval
-stuff done: piece bias and eval of each piece
-stuff needed: functuion to create random legal moves, function to create binary tree with eval nums,  
-function to search binary tree to find the highest/lowest eval total, and probably add alpha beta pruning
-'''
 PBias = [
         [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
         [5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0],
@@ -112,7 +104,6 @@ class Piece:
         self.x = []
         self.y = []
         self.eval = []
-        self.boards = []
         self.nodes = []
         
 
@@ -167,7 +158,6 @@ def createMove(board,board_state,det):
                     (p1[x].nextPos).append(nPosActual[i])
                     (p1[x].x).append(newPos2[i])
                     (p1[x].y).append(newPos[i])
-                    (p1[x].boards).append(board_state)
                     count+=1
         if count == 0 or i == 0:
             p1[createdNode] = Piece()
@@ -176,7 +166,6 @@ def createMove(board,board_state,det):
             p1[createdNode].piece = board_state[origPos2[i]][origPos[i]]
             (p1[createdNode].x).append(newPos2[i])
             (p1[createdNode].y).append(newPos[i])
-            (p1[createdNode].boards).append(board_state)
             createdNode+=1
         i+=1
     p1 = list(filter(None, p1))
@@ -192,7 +181,7 @@ def createTree(board,board_state, depth,iters):
 
     for x in range(createdNode):
         for y in range(len(p1[x].x)):
-            if depth < 3:
+            if depth < 2:
                 nboard = game.check_legal((p1[x].pos+p1[x].nextPos[y]),p1[x].pos,p1[x].nextPos[y],p1[x].y[y],p1[x].x[y],board, board_state)
                 nboard_state = br.board_init(nboard)
                 depth+=1
@@ -200,39 +189,13 @@ def createTree(board,board_state, depth,iters):
                 depth-=1
                 board.pop()
                 (p1[x].nodes).append(tmp)
-            elif depth == 3:
+            elif depth == 2:
                 return p1, depth
     if iters != 1:
         iters-=1
         return p1,depth
+    
     print("placeholder")
-
-'''          
-bunch of useless garbage
-def newCreateTree(position, next_position, b, a, board, board_state, depth):
-    r = brd()
-    if depth == 0:
-        r.nboard = board
-        r.nboard_state = board_state
-    else:
-        r.nboard = game.check_legal((position+next_position), position, next_position, b, a, board, board_state)
-        r.nboard_state = br.board_init(r.nboard)
-    p1, createdNode = createMove(r.nboard,r.nboard_state,0)
-    p1 = createEval(p1, createdNode)
-    for x in range(createdNode):
-        for y in range(len(p1[x].x)):
-            if depth < 5:
-                depth+=1
-                tmp,depth = newCreateTree(p1[x].pos,p1[x].nextPos[y],p1[x].y[y],p1[x].x[y],r.nboard, r.nboard_state, depth)
-                (p1[x].nodes).append(tmp)
-            elif depth == 5:
-                depth-=1
-                return p1, depth
-
-class brd:
-    def __init__(self):
-        self.nboard = 0
-        self.nboard_state = 0'''
 
 def createEval(p1, createdNode):
     for x in range(createdNode):
@@ -255,6 +218,3 @@ def searchTree(self,createdNode) :
             return(min(createdNode).pieceVal)
     else :
         return createdNode.pieceVal
-
-
-    print('placeholder')
