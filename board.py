@@ -3,9 +3,6 @@ import re
 import numpy as np
 import pygame as p
 
-
-
-
 WIDTH = 512
 HEIGHT = 512
 DIMENSION = 8
@@ -63,11 +60,11 @@ def highlightSquares(screen, board_state, legal_move, square_selected):
            screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
 
            #highlight moves from that square (check legal variable needs to be change possibly to get to work)
-           s.fill(p.Color('blue'))
+           ''' s.fill(p.Color('blue'))
            for move in legal_move:
-            #startRow = game.AI.convertPos(move[:1])
-            #startCol = game.AI.convertPos(move[1:2])
-            screen.blit(s,(SQ_SIZE*startRow, SQ_SIZE*startCol))
+            startRow = AI.convertPos(move[:1])
+            startCol = AI.convertPos(move[1:2])
+            screen.blit(s,(SQ_SIZE*startRow, SQ_SIZE*startCol))'''
 
 def draw_game_state(screen, board, check_legal, square_selected):
    draw_board(screen)

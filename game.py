@@ -19,6 +19,26 @@ pawn = ['P', 'p']
 board = chess.Board()
 board_state = br.board_init(board)
 
+def highlightSquares(screen, board_state, legal_move, square_selected):
+    if square_selected != ():
+        row, col = square_selected
+        if board_state[row][col] != '.':
+           s = p.Surface((SQ_SIZE, SQ_SIZE)) 
+           s.set_alpha(10)  #transperancy value
+           s.fill(p.Color('yellow'))
+           screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
+
+           #highlight moves from that square (check legal variable needs to be change possibly to get to work)
+           s.fill(p.Color('blue'))
+           for move in legal_move:
+            this = (str(move))
+            startCol = AI.convertPos(this[:1])
+            startRow = AI.convertPos(this[1:2])
+            if row == startRow and col == startCol:
+                endCol = AI.convertPos(this[2:3])
+                endRow = AI.convertPos(this[3:])
+                screen.blit(s,(SQ_SIZE*endCol, SQ_SIZE*endRow))
+
 
 def update_board(board):
     holder = str(board)
@@ -109,7 +129,10 @@ def main(type):
                         x = x + 1
                         print(x)
                         square_selected = (row, col)
-                        br.highlightSquares(screen, board_state,board.legal_moves,square_selected)
+                        #br.draw_board(screen)
+                        highlightSquares(screen, board_state, board.legal_moves, square_selected)
+                        #br.draw_pieces(screen,board_state)
+                       # br.draw_game_state(screen, board_state,board.legal_moves,square_selected)
                         playerInput.append(square_selected)
                     if len(playerInput) == 2:
                         from_pos = br.board_position(
