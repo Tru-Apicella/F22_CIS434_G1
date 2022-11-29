@@ -84,11 +84,11 @@ while run:
                 if vs_player_btn.is_over(mouse_position):
                     print("clicked the button")
                     game_state = "game"
-                    g.main()  # call main class
+                    g.main(0)  # call main class
                 if vs_AI_btn.is_over(mouse_position):
                     print("clicked the 2button")
                     game_state = "game"
-                    g.main()  # call main class
+                    g.main(1)  # call main class
                 if quit_button.is_over(mouse_position):
                     print("clicked the 3button")
                     run = False

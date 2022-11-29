@@ -79,8 +79,8 @@ def game_status(board):
         msg = "draw: claim"
         print(msg)
 
-
-def main():
+#adding a type for main so that when 0 its player vs play and 1 is player vs ai
+def main(type):
     p.init()
     x = 0
     screen = p.display.set_mode((WIDTH, HEIGHT))
@@ -92,55 +92,60 @@ def main():
     square_selected = ()  # last click of the player
     playerInput = []
     while running:
-        for e in p.event.get():
-            if e.type == p.QUIT:
-                running = False
-            # take input using pygame function then converting to actual 2d board position
-            elif e.type == p.MOUSEBUTTONDOWN:
-                location = p.mouse.get_pos()
-                col = location[0]//SQ_SIZE
-                row = location[1]//SQ_SIZE
-                # taking the input and splitting it between from, to, and pawn position if needed
-                if square_selected == (row, col):
-                    square_selected = ()  # reset square
-                    playerInput = []  # reset input
-                else:
-                    x = x + 1
-                    print(x)
-                    square_selected = (row, col)
-                    playerInput.append(square_selected)
-                if len(playerInput) == 2:
-                    from_pos = br.board_position(
-                        playerInput[0][0], playerInput[0][1])
-                    to_pos = br.board_position(
-                        playerInput[1][0], playerInput[1][1])
-                    x = 0
-                    z_from = playerInput[0][0]
-                    y_from = playerInput[0][1]
-                    z = playerInput[1][0]
-                    y = playerInput[1][1]
-                    check_pawn = board_state[z_from][y_from]
-                    print(check_pawn)
-                    if check_pawn == 'p':
-                        z = z_from
-                        y = y_from
-                    elif check_pawn == 'P':
-                        z = z_from
-                        y = y_from
-                    whole_pos = from_pos + to_pos
-                    print(whole_pos)
-                    check_legal(whole_pos, from_pos, to_pos, y, z,board, board_state)
-                    # print whose turn it is for better debugging and player experince
-                    if (board.turn == chess.WHITE):
-                        print("white")
+        if board.turn == True or type == 0:    
+            for e in p.event.get():
+                if e.type == p.QUIT:
+                    running = False
+                # take input using pygame function then converting to actual 2d board position
+                elif e.type == p.MOUSEBUTTONDOWN:
+                    location = p.mouse.get_pos()
+                    col = location[0]//SQ_SIZE
+                    row = location[1]//SQ_SIZE
+                    # taking the input and splitting it between from, to, and pawn position if needed
+                    if square_selected == (row, col):
+                        square_selected = ()  # reset square
+                        playerInput = []  # reset input
                     else:
-                        print("black")
-                    square_selected = ()  # reset square
-                    playerInput = []  # reset input
+                        x = x + 1
+                        print(x)
+                        square_selected = (row, col)
+                        playerInput.append(square_selected)
+                    if len(playerInput) == 2:
+                        from_pos = br.board_position(
+                            playerInput[0][0], playerInput[0][1])
+                        to_pos = br.board_position(
+                            playerInput[1][0], playerInput[1][1])
+                        x = 0
+                        z_from = playerInput[0][0]
+                        y_from = playerInput[0][1]
+                        z = playerInput[1][0]
+                        y = playerInput[1][1]
+                        check_pawn = board_state[z_from][y_from]
+                        print(check_pawn)
+                        if check_pawn == 'p':
+                            z = z_from
+                            y = y_from
+                        elif check_pawn == 'P':
+                            z = z_from
+                            y = y_from
+                        whole_pos = from_pos + to_pos
+                        print(whole_pos)
+                        check_legal(whole_pos, from_pos, to_pos, y, z,board, board_state)
+                        # print whose turn it is for better debugging and player experince
+                        if (board.turn == chess.WHITE):
+                            print("white")
+                        else:
+                            print("black")
+                        square_selected = ()  # reset square
+                        playerInput = []  # reset input
+        elif board.turn == False and type == 1:
+            pos,nextPos = AI.AIRunner(board,board_state)
+            np0 = AI.convertPos(nextPos[:1])
+            np1 = AI.convertPos(nextPos[1:2])
+            check_legal((pos+nextPos),pos,nextPos,np0,np1,board,board_state)
         # loop for updating the game board and screen
         board_state = br.board_init(board)
         br.draw_game_state(screen, board_state, check_legal, square_selected)
-        AI.createTree(board, board_state,0,0)
         clock.tick(FPS)
         p.display.flip()
         game_status(board)

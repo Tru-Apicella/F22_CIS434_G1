@@ -205,9 +205,7 @@ def createTree(board,board_state, depth,iters):
         iters-=1
         return p1,depth
     
-    print("placeholder")
-    otherSearchTree(p1)
-
+    return p1
 
 def createEval(p1, createdNode):
     for x in range(createdNode):
@@ -219,18 +217,18 @@ def otherSearchTree(p1):
     if p1[0].nodes:
         for x in enumerate(p1):
             for y in enumerate(x[1].nodes):
-                highest, bestPos,bestNPos = otherSearchTree(y[1])
-                x[1].eval[y[0]] = highest+x[1].eval[y[0]]
-    highest = -9999  
+                lowest, bestPos,bestNPos = otherSearchTree(y[1])
+                x[1].eval[y[0]] = lowest-x[1].eval[y[0]]
+    lowest = 9999  
     for x in p1:
-        if highest < max(x.eval):
-            highest = max(x.eval)
+        if lowest > min(x.eval):
+            lowest = min(x.eval)
             bestPos = x.pos
             for y in enumerate(x.eval):
-                if y[1] == highest:
+                if y[1] == lowest:
                     bestNPos = x.nextPos[y[0]]
                     
-    return highest, bestPos,bestNPos
+    return lowest, bestPos,bestNPos
 
 
 #created tree of the best moves for ai & randomizes the best move so ai doesnt choice same thing everytime
@@ -239,6 +237,11 @@ def getBestMove(self):
         randombestMove = random.choice(bestMove)
         return randombestMove
 
+
+def AIRunner(board,board_state):
+    p1 = createTree(board,board_state,0,0)
+    highest, bestPos,bestNPos = otherSearchTree(p1)
+    return bestPos,bestNPos
 
 
 
