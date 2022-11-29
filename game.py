@@ -139,7 +139,7 @@ def main():
                     playerInput = []  # reset input
         # loop for updating the game board and screen
         board_state = br.board_init(board)
-        br.draw_game_state(screen, board_state)
+        br.draw_game_state(screen, board_state, check_legal, square_selected)
         AI.createTree(board, board_state,0,0)
         clock.tick(FPS)
         p.display.flip()
