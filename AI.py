@@ -179,30 +179,36 @@ def createMove(board,board_state,det):
             (p1[createdNode].boards).append(board_state)
             createdNode+=1
         i+=1
+    p1 = list(filter(None, p1))
     if det == 0:
         return p1,createdNode
     elif det ==1:
         return p1
 
-def createTree(board,board_state, depth):
+def createTree(board,board_state, depth,iters):
+    iters+=1
     p1, createdNode = createMove(board,board_state,0)
     p1 = createEval(p1, createdNode)
 
     for x in range(createdNode):
-        #i = 0    
         for y in range(len(p1[x].x)):
             if depth < 3:
                 nboard = game.check_legal((p1[x].pos+p1[x].nextPos[y]),p1[x].pos,p1[x].nextPos[y],p1[x].y[y],p1[x].x[y],board, board_state)
                 nboard_state = br.board_init(nboard)
                 depth+=1
-                tmp,depth = (createTree(nboard, nboard_state,depth))
+                tmp,depth = (createTree(nboard, nboard_state,depth,iters))
+                depth-=1
                 board.pop()
                 (p1[x].nodes).append(tmp)
             elif depth == 3:
-                depth-=1
                 return p1, depth
+    if iters != 1:
+        iters-=1
+        return p1,depth
     print("placeholder")
-            
+
+'''          
+bunch of useless garbage
 def newCreateTree(position, next_position, b, a, board, board_state, depth):
     r = brd()
     if depth == 0:
@@ -226,7 +232,7 @@ def newCreateTree(position, next_position, b, a, board, board_state, depth):
 class brd:
     def __init__(self):
         self.nboard = 0
-        self.nboard_state = 0
+        self.nboard_state = 0'''
 
 def createEval(p1, createdNode):
     for x in range(createdNode):
