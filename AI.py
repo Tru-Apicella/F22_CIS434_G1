@@ -72,31 +72,35 @@ KBias = [
 ]
 kBias = KBias[::-1]
 
-def pieceVal(piece,x,y):
-    if piece == 'P':
-        return 10 + PBias[x][y]
-    elif piece =='p':
-        return -10 - pBias[x][y]
-    elif piece == 'R':
-        return 50 + RBias[x][y]
-    elif piece =='r':
-        return -50 - rBias[x][y]
-    elif piece == 'N':
-        return 30 + nBias[x][y]
-    elif piece =='n':
-        return -30 - nBias[x][y]
-    elif piece == 'B':
-        return 30 + BBias[x][y]
-    elif piece =='b':
-        return -30 - bBias[x][y]
-    elif piece == 'Q':
-        return 90 + qBias[x][y]
-    elif piece =='q':
-        return -90 - qBias[x][y]
-    elif piece == 'K':
-        return 900 + KBias[x][y]
-    elif piece =='k':
-        return -900 - kBias[x][y]
+def pieceVal(board_state):
+    total = 0
+    for x in enumerate(board_state):
+        for y in enumerate(x[1]):
+            if y[1] == 'P':
+                total+= 10 + PBias[x[0]][y[0]]
+            elif y[1] =='p':
+                total+= -10 + pBias[x[0]][y[0]]
+            elif y[1] == 'R':
+                total+= 50 + RBias[x[0]][y[0]]
+            elif y[1] =='r':
+                total+= -50 + rBias[x[0]][y[0]]
+            elif y[1] == 'N':
+                total+= 30 + nBias[x[0]][y[0]]
+            elif y[1] =='n':
+                total+= -30 + nBias[x[0]][y[0]]
+            elif y[1] == 'B':
+                total+= 30 + BBias[x[0]][y[0]]
+            elif y[1] =='b':
+                total+= -30 + bBias[x[0]][y[0]]
+            elif y[1] == 'Q':
+                total+= 90 + qBias[x[0]][y[0]]
+            elif y[1] =='q':
+                total+= -90 + qBias[x[0]][y[0]]
+            elif y[1] == 'K':
+                total+= 900 + KBias[x[0]][y[0]]
+            elif y[1] =='k':
+                total+= -900 + kBias[x[0]][y[0]]
+    return total
 
 class Piece:
     def __init__(self):
@@ -106,6 +110,7 @@ class Piece:
         self.x = []
         self.y = []
         self.eval = []
+        self.boards = []
         self.nodes = []
         
 
@@ -168,6 +173,10 @@ def createMove(board,board_state,det):
                     (p1[x].nextPos).append(nPosActual[i])
                     (p1[x].x).append(newPos2[i])
                     (p1[x].y).append(newPos[i])
+                    nboard = game.check_legal((p1[x].pos+p1[x].nextPos[-1]),p1[x].pos,p1[x].nextPos[-1],p1[x].y[-1],p1[x].x[-1],board, board_state)
+                    nboard_state = br.board_init(nboard)
+                    (p1[x].boards).append(nboard_state)
+                    board.pop()
                     count+=1
         if count == 0 or i == 0:
             p1[createdNode] = Piece()
@@ -176,6 +185,10 @@ def createMove(board,board_state,det):
             p1[createdNode].piece = board_state[origPos2[i]][origPos[i]]
             (p1[createdNode].x).append(newPos2[i])
             (p1[createdNode].y).append(newPos[i])
+            nboard = game.check_legal((p1[createdNode].pos+p1[createdNode].nextPos[0]),p1[createdNode].pos,p1[createdNode].nextPos[0],p1[createdNode].y[0],p1[createdNode].x[0],board, board_state)
+            nboard_state = br.board_init(nboard)
+            (p1[createdNode].boards).append(nboard_state)
+            board.pop()
             createdNode+=1
         i+=1
     p1 = list(filter(None, p1))
@@ -187,7 +200,7 @@ def createMove(board,board_state,det):
 def createTree(board,board_state, depth,iters):
     iters+=1
     p1, createdNode = createMove(board,board_state,0)
-    p1 = createEval(p1, createdNode)
+    p1 = createEval(p1, createdNode,board_state)
 
     for x in range(createdNode):
         for y in range(len(p1[x].x)):
@@ -207,10 +220,10 @@ def createTree(board,board_state, depth,iters):
     
     return p1
 
-def createEval(p1, createdNode):
+def createEval(p1, createdNode,board_state):
     for x in range(createdNode):
         for y in range(len(p1[x].x)):
-            p1[x].eval.append(pieceVal(p1[x].piece, p1[x].x[y],p1[x].y[y]))
+            p1[x].eval.append(pieceVal(board_state))
     return p1
 
 def otherSearchTree(p1):
