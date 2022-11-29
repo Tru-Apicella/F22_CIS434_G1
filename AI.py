@@ -1,5 +1,7 @@
 import board as br
 import game
+import random
+
 PBias = [
         [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
         [5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0,  5.0],
@@ -198,6 +200,7 @@ def createTree(board,board_state, depth,iters):
     print("placeholder")
     otherSearchTree(p1)
 
+
 def createEval(p1, createdNode):
     for x in range(createdNode):
         for y in range(len(p1[x].x)):
@@ -218,21 +221,14 @@ def otherSearchTree(p1):
             for y in enumerate(x.eval):
                 if y[1] == highest:
                     bestNPos = x.nextPos[y[0]]
+                    
     return highest, bestPos,bestNPos
 
 
+#created tree of the best moves for ai & randomizes the move so ai doesnt choice same thing everytime
+def getBestMove(self):
+        bestMove = self.otherSearchTree(createTree)
+        randombestMove = random.choice(bestMove)
+        return randombestMove
 
 
-#starting on traverse tree and finding the best move for the pieces
-def searchTree(self,createdNode) :
-    if createdNode.p1:
-        for createdNode in createdNode.p1 :
-        #need to add line of code here, cant find right word rn will do later
-            
-        #If the depth is divisible by 2, it's a move for the AI's side, so return max eval points
-         if createdNode.pos[0].depth % 2 == 1 :
-            return(max(createdNode).pieceVal)
-        else :
-            return(min(createdNode).pieceVal)
-    else :
-        return createdNode.pieceVal
