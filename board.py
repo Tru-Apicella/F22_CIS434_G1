@@ -60,7 +60,7 @@ def highlightSquares(screen, board_state, check_legal, square_selected):
            s.fill(p.Color('yellow'))
            screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
 
-           #highlight moves from that square (need to change some variables)
+           #highlight moves from that square (check legal variable needs to be change possibly to get to work)
            s.fill(p.Color('blue'))
            for move in check_legal:
             if move.startRow == row and move.startCol == col:
