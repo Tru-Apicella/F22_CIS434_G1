@@ -67,26 +67,8 @@ def load_images():
         "images_1/bk.png"), (SQ_SIZE, SQ_SIZE))
 
 
-# highlights the square selected and shows possible moves the player can make
-def highlightSquares(screen, board_state, check_legal, square_selected):
-    if square_selected != ():
-        row, col = square_selected
-        if board_state[row][col][0] == ('white' if chess.WHITE else 'black'):
-            s = p.Surface((SQ_SIZE, SQ_SIZE))
-            s.set_alpha(100)  # transperancy value
-            s.fill(p.Color('yellow'))
-            screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
-
-           #highlight moves from that square (check legal variable needs to be change possibly to get to work)
-''' s.fill(p.Color('blue'))
-           for move in legal_move:
-            startRow = AI.convertPos(move[:1])
-            startCol = AI.convertPos(move[1:2])
-            screen.blit(s,(SQ_SIZE*startRow, SQ_SIZE*startCol))'''
-
 def draw_game_state(screen, board, check_legal, square_selected):
     draw_board(screen)
-    highlightSquares(screen, board, check_legal, square_selected)
     draw_pieces(screen, board)
 
 

@@ -1,5 +1,6 @@
 import game
 import random
+import random
 
 PBias = [
         [0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0],
@@ -192,6 +193,7 @@ def createMove(board,board_state,det):
         i+=1
     p1 = list(filter(None, p1))
     if det == 0:
+        random.shuffle(p1)
         return p1,createdNode
     elif det ==1:
         return p1

@@ -25,7 +25,7 @@ def highlightSquares(screen, board_state, legal_move, square_selected):
         row, col = square_selected
         if board_state[row][col] != '.':
            s = p.Surface((SQ_SIZE, SQ_SIZE)) 
-           s.set_alpha(10)  #transperancy value
+           s.set_alpha(80)  #transperancy value
            s.fill(p.Color('yellow'))
            screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
 
@@ -38,7 +38,10 @@ def highlightSquares(screen, board_state, legal_move, square_selected):
             if row == startRow and col == startCol:
                 endCol = AI.convertPos(this[2:3])
                 endRow = AI.convertPos(this[3:])
-                screen.blit(s,(SQ_SIZE*endCol, SQ_SIZE*endRow))
+                try:
+                    screen.blit(s,(SQ_SIZE*endCol, SQ_SIZE*endRow))
+                except:
+                    print("theres an error")
 
 
 def update_board(board):
@@ -91,7 +94,10 @@ def game_status(board):
         print(result)
         #alerts the player that they won the game 
         font = p.font.Font('freesansbold.ttf', 32)
-        text = font.render('You Win!', True, (0, 255, 0), (0, 0, 128))
+        if board.turn == True:
+            text = font.render('Black Wins!', True, (0, 255, 0), (0, 0, 128))
+        elif board.turn == False:
+            text = font.render('White Wins!', True, (0, 255, 0), (0, 0, 128))
         textRect = text.get_rect()
         textRect.center = (200, 550)
         screen.blit(text, textRect)
@@ -173,10 +179,6 @@ def main(type):
                         x = x + 1
                         print(x)
                         square_selected = (row, col)
-                        #br.draw_board(screen)
-                        highlightSquares(screen, board_state, board.legal_moves, square_selected)
-                        #br.draw_pieces(screen,board_state)
-                       # br.draw_game_state(screen, board_state,board.legal_moves,square_selected)
                         playerInput.append(square_selected)
                     if len(playerInput) == 2:
                         from_pos = br.board_position(
@@ -233,6 +235,7 @@ def main(type):
         board_state = br.board_init(board)
         br.draw_game_state(screen, board_state, check_legal, square_selected)
         clock.tick(FPS)
+        highlightSquares(screen, board_state, board.legal_moves, square_selected)
         p.display.flip()
         game_status(board)
 
