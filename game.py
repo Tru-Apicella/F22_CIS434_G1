@@ -14,8 +14,7 @@ SQ_SIZE = HEIGHT // DIMENSION
 FPS = 15  # max fps
 IMAGES = {}
 screen = p.display.set_mode((WIDTH, 600))
-promotion_pos = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8',
-                 'h8', 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1']
+promotion_pos = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8', 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1']
 pawn = ['P', 'p']
 board = chess.Board()
 board_state = br.board_init(board)
@@ -26,11 +25,11 @@ def highlightSquares(screen, board_state, legal_move, square_selected):
         if board_state[row][col] != '.':
            s = p.Surface((SQ_SIZE, SQ_SIZE)) 
            s.set_alpha(80)  #transperancy value
-           s.fill(p.Color('yellow'))
+           s.fill(p.Color('red'))
            screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
 
            #highlight moves from that square (check legal variable needs to be change possibly to get to work)
-           s.fill(p.Color('blue'))
+           s.fill(p.Color('green'))
            for move in legal_move:
             this = (str(move))
             startCol = AI.convertPos(this[:1])
@@ -43,7 +42,7 @@ def highlightSquares(screen, board_state, legal_move, square_selected):
                 except:
                     print("theres an error")
 
-
+# could be useful if a 64 1D array is needed instead of a 2D array
 def update_board(board):
     holder = str(board)
     returned = re.split('\n| ', holder)
@@ -68,6 +67,7 @@ def check_legal(move, from_pos, to_pos, y, z, board, board_state):
             move = from_pos + to_pos
             print(move)
             print(list(board.legal_moves))
+    # if the move is not a pawn promo then we check if its legal and make the move if it is
     if chess.Move.from_uci(move) in board.legal_moves:
         print(list(board.legal_moves))
         board.push_san(move)

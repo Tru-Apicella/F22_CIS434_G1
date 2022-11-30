@@ -40,33 +40,23 @@ def board_position(x, y):
 # load images
 def load_images():
     # WHITE
-    IMAGES['P'] = p.transform.scale(p.image.load(
-        "images_1/wp.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['R'] = p.transform.scale(p.image.load(
-        "images_1/wr.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['N'] = p.transform.scale(p.image.load(
-        "images_1/wn.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['B'] = p.transform.scale(p.image.load(
-        "images_1/wb.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['Q'] = p.transform.scale(p.image.load(
-        "images_1/wq.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['K'] = p.transform.scale(p.image.load(
-        "images_1/wk.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['P'] = p.transform.scale(p.image.load("images_1/wp.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['R'] = p.transform.scale(p.image.load("images_1/wr.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['N'] = p.transform.scale(p.image.load("images_1/wn.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['B'] = p.transform.scale(p.image.load("images_1/wb.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['Q'] = p.transform.scale(p.image.load("images_1/wq.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['K'] = p.transform.scale(p.image.load("images_1/wk.png"), (SQ_SIZE, SQ_SIZE))
+
     # BLACK
-    IMAGES['p'] = p.transform.scale(p.image.load(
-        "images_1/bp.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['r'] = p.transform.scale(p.image.load(
-        "images_1/br.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['n'] = p.transform.scale(p.image.load(
-        "images_1/bn.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['b'] = p.transform.scale(p.image.load(
-        "images_1/bb.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['q'] = p.transform.scale(p.image.load(
-        "images_1/bq.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['k'] = p.transform.scale(p.image.load(
-        "images_1/bk.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['p'] = p.transform.scale(p.image.load("images_1/bp.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['r'] = p.transform.scale(p.image.load("images_1/br.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['n'] = p.transform.scale(p.image.load("images_1/bn.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['b'] = p.transform.scale(p.image.load("images_1/bb.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['q'] = p.transform.scale(p.image.load("images_1/bq.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['k'] = p.transform.scale(p.image.load("images_1/bk.png"), (SQ_SIZE, SQ_SIZE))
 
-
+def highlight_move(screen , board, move, selected_square):
+    pass
 def draw_game_state(screen, board, check_legal, square_selected):
     draw_board(screen)
     draw_pieces(screen, board)
