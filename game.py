@@ -89,7 +89,7 @@ def game_status(board):
         result = not board.turn
         print(msg)
         print(result)
-        #alerts the player that they won the game
+        #alerts the player that they won the game 
         font = p.font.Font('freesansbold.ttf', 32)
         text = font.render('You Win!', True, (0, 255, 0), (0, 0, 128))
         textRect = text.get_rect()
@@ -99,17 +99,38 @@ def game_status(board):
     elif board.is_stalemate():
         msg = "draw: stalemate"
         print(msg)
-       
+        font = p.font.Font('freesansbold.ttf', 32)
+        text = font.render('draw: stalemate', True, (0, 255, 0), (0, 0, 128))
+        textRect = text.get_rect()
+        textRect.center = (200, 550)
+        screen.blit(text, textRect)
         
     elif board.is_fivefold_repetition():
         msg = "draw: 5-fold repetition"
         print(msg)
+        font = p.font.Font('freesansbold.ttf', 32)
+        text = font.render('draw: 5-fold repetition', True, (0, 255, 0), (0, 0, 128))
+        textRect = text.get_rect()
+        textRect.center = (200, 550)
+        screen.blit(text, textRect)
+
     elif board.is_insufficient_material():
         msg = "draw: insufficient material"
         print(msg)
+        font = p.font.Font('freesansbold.ttf', 32)
+        text = font.render('draw: insufficient material', True, (0, 255, 0), (0, 0, 128))
+        textRect = text.get_rect()
+        textRect.center = (200, 550)
+        screen.blit(text, textRect)
+
     elif board.can_claim_draw():
         msg = "draw: claim"
         print(msg)
+        font = p.font.Font('freesansbold.ttf', 32)
+        text = font.render('draw: claim', True, (0, 255, 0), (0, 0, 128))
+        textRect = text.get_rect()
+        textRect.center = (200, 550)
+        screen.blit(text, textRect)
 
 # adding a type for main so that when 0 its player vs play and 1 is player vs ai
 
