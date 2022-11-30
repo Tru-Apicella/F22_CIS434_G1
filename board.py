@@ -78,7 +78,7 @@ def highlightSquares(screen, board_state, check_legal, square_selected):
             screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
 
            #highlight moves from that square (check legal variable needs to be change possibly to get to work)
-           ''' s.fill(p.Color('blue'))
+''' s.fill(p.Color('blue'))
            for move in legal_move:
             startRow = AI.convertPos(move[:1])
             startCol = AI.convertPos(move[1:2])

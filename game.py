@@ -13,6 +13,7 @@ DIMENSION = 8
 SQ_SIZE = HEIGHT // DIMENSION
 FPS = 15  # max fps
 IMAGES = {}
+screen = p.display.set_mode((WIDTH, 600))
 promotion_pos = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8',
                  'h8', 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1']
 pawn = ['P', 'p']
@@ -88,9 +89,18 @@ def game_status(board):
         result = not board.turn
         print(msg)
         print(result)
+        #alerts the player that they won the game
+        font = p.font.Font('freesansbold.ttf', 32)
+        text = font.render('You Win!', True, (0, 255, 0), (0, 0, 128))
+        textRect = text.get_rect()
+        textRect.center = (200, 550)
+        screen.blit(text, textRect)
+
     elif board.is_stalemate():
         msg = "draw: stalemate"
         print(msg)
+       
+        
     elif board.is_fivefold_repetition():
         msg = "draw: 5-fold repetition"
         print(msg)
