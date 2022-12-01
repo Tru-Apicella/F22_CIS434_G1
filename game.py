@@ -105,13 +105,13 @@ def game_status(board):
         print(msg)
         print(result)
         #alerts the player that they won the game 
-        font = p.font.Font('freesansbold.ttf', 32)
+        font = p.font.Font('freesansbold.ttf', 52)
         if board.turn == True:
-            text = font.render('Black Wins!', True, (0, 255, 0), (0, 0, 128))
+            text = font.render('        Black Wins!       ', True, (0, 0, 0), (255, 255, 255))
         elif board.turn == False:
-            text = font.render('White Wins!', True, (0, 255, 0), (0, 0, 128))
+            text = font.render('        White Wins!       ', True, (0, 0, 0), (255, 255, 255))
         textRect = text.get_rect()
-        textRect.center = (200, 550)
+        textRect.center = (256, 556)
         screen.blit(text, textRect)
 
     elif board.is_stalemate():
@@ -222,23 +222,24 @@ def main(type):
                         if (board.turn == chess.WHITE):
                             print("white")
                             # hhhhhhhhhhhhhhhhh
-                            font = p.font.Font('freesansbold.ttf', 32)
+                            font = p.font.Font('freesansbold.ttf', 52)
                             text = font.render(
-                                'White', True, (0, 255, 0), (0, 0, 128))
+                                'Current Turn: White', True, (0, 0, 0), (255, 255, 255))
                             textRect = text.get_rect()
-                            textRect.center = (200, 550)
+                            textRect.center = (256, 556)
                             screen.blit(text, textRect)
                             # hhhhhhhhhhhhhhhhhhhhhh
                         else:
-                            print("black")
-                            # hhhhhhhhhhhhhhhhh
-                            font = p.font.Font('freesansbold.ttf', 32)
-                            text = font.render(
-                                'Black', True, (0, 255, 0), (0, 0, 128))
-                            textRect = text.get_rect()
-                            textRect.center = (200, 550)
-                            screen.blit(text, textRect)
-                            # hhhhhhhhhhhhhhhhhhhhhh
+                            if type == 0:
+                                print("black")
+                                # hhhhhhhhhhhhhhhhh
+                                font = p.font.Font('freesansbold.ttf', 52)
+                                text = font.render(
+                                    'Current Turn: Black', True, (0, 0, 0), (255, 255, 255))
+                                textRect = text.get_rect()
+                                textRect.center = (256, 556)
+                                screen.blit(text, textRect)
+                                # hhhhhhhhhhhhhhhhhhhhhh
                         square_selected = ()  # reset square
                         
                         playerInput = []  # reset input
