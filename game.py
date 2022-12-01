@@ -122,7 +122,8 @@ def main(type):
                         x = x + 1
                         print(x)
                         square_selected = (row, col)
-                        br.highlightSquares(screen, board_state,board.legal_moves,square_selected)
+                        br.highlightSquares(
+                            screen, board_state, board.legal_moves, square_selected)
                         playerInput.append(square_selected)
                     if len(playerInput) == 2:
                         from_pos = br.board_position(
@@ -149,24 +150,24 @@ def main(type):
                         # print whose turn it is for better debugging and player experince
                         if (board.turn == chess.WHITE):
                             print("white")
-                            # hhhhhhhhhhhhhhhhh
+                            # To show that it's the black turn
                             font = p.font.Font('freesansbold.ttf', 32)
                             text = font.render(
                                 'White', True, (0, 255, 0), (0, 0, 128))
                             textRect = text.get_rect()
                             textRect.center = (200, 550)
                             screen.blit(text, textRect)
-                            # hhhhhhhhhhhhhhhhhhhhhh
+
                         else:
                             print("black")
-                            # hhhhhhhhhhhhhhhhh
+                            # To show that it's the black turn
                             font = p.font.Font('freesansbold.ttf', 32)
                             text = font.render(
                                 'Black', True, (0, 255, 0), (0, 0, 128))
                             textRect = text.get_rect()
                             textRect.center = (200, 550)
                             screen.blit(text, textRect)
-                            # hhhhhhhhhhhhhhhhhhhhhh
+
                         square_selected = ()  # reset square
                         playerInput = []  # reset input
         elif board.turn == False and type == 1:
