@@ -6,7 +6,6 @@ import board as br
 import pygame as p
 import AI
 
-
 WIDTH = 512
 HEIGHT = 512
 DIMENSION = 8
@@ -14,8 +13,7 @@ SQ_SIZE = HEIGHT // DIMENSION
 FPS = 15  # max fps
 IMAGES = {}
 screen = p.display.set_mode((WIDTH, 600))
-promotion_pos = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8',
-                 'h8', 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1']
+promotion_pos = ['a8', 'b8', 'c8', 'd8', 'e8', 'f8', 'g8', 'h8', 'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1']
 pawn = ['P', 'p']
 board = chess.Board()
 board_state = br.board_init(board)
@@ -53,13 +51,12 @@ def highlightSquares(screen, board_state, legal_move, square_selected):
                     endCol = AI.convertPos(this[2:3])
                     endRow = AI.convertPos(this[3:])
                     try:
-                        screen.blit(s, (SQ_SIZE*endCol, SQ_SIZE*endRow))
+                        screen.blit(s, (SQ_SIZE * endCol, SQ_SIZE * endRow))
                     except:
                         print("theres an error")
 
+
 # could be useful if a 64 1D array is needed instead of a 2D array
-
-
 def update_board(board):
     holder = str(board)
     returned = re.split('\n| ', holder)
@@ -93,6 +90,7 @@ def check_legal(move, from_pos, to_pos, y, z, board, board_state):
         print(list(board.legal_moves))
         print("not legal")
 
+
 # this function has no use currently, but it did help with debugging earlier
 
 
@@ -112,11 +110,9 @@ def game_status(board):
         # alerts the player that they won the game
         font = p.font.Font('freesansbold.ttf', 52)
         if board.turn == True:
-            text = font.render('        Black Wins!       ',
-                               True, (0, 0, 0), (255, 255, 255))
+            text = font.render('        Black Wins!       ', True, (0, 0, 0), (255, 255, 255))
         elif board.turn == False:
-            text = font.render('        White Wins!       ',
-                               True, (0, 0, 0), (255, 255, 255))
+            text = font.render('        White Wins!       ', True, (0, 0, 0), (255, 255, 255))
         textRect = text.get_rect()
         textRect.center = (256, 556)
         screen.blit(text, textRect)
@@ -134,8 +130,7 @@ def game_status(board):
         msg = "draw: 5-fold repetition"
         print(msg)
         font = p.font.Font('freesansbold.ttf', 32)
-        text = font.render('draw: 5-fold repetition',
-                           True, (0, 255, 0), (0, 0, 128))
+        text = font.render('draw: 5-fold repetition', True, (0, 255, 0), (0, 0, 128))
         textRect = text.get_rect()
         textRect.center = (200, 550)
         screen.blit(text, textRect)
@@ -144,8 +139,7 @@ def game_status(board):
         msg = "draw: insufficient material"
         print(msg)
         font = p.font.Font('freesansbold.ttf', 32)
-        text = font.render('draw: insufficient material',
-                           True, (0, 255, 0), (0, 0, 128))
+        text = font.render('draw: insufficient material', True, (0, 255, 0), (0, 0, 128))
         textRect = text.get_rect()
         textRect.center = (200, 550)
         screen.blit(text, textRect)
@@ -158,6 +152,7 @@ def game_status(board):
         textRect = text.get_rect()
         textRect.center = (200, 550)
         screen.blit(text, textRect)
+
 
 # adding a type for main so that when 0 its player vs play and 1 is player vs ai
 
@@ -191,8 +186,8 @@ def main(type):
                 # take input using pygame function then converting to actual 2d board position
                 elif e.type == p.MOUSEBUTTONDOWN:
                     location = p.mouse.get_pos()
-                    col = location[0]//SQ_SIZE
-                    row = location[1]//SQ_SIZE
+                    col = location[0] // SQ_SIZE
+                    row = location[1] // SQ_SIZE
                     # taking the input and splitting it between from, to, and pawn position if needed
                     if square_selected == (row, col):
                         square_selected = ()  # reset square
@@ -201,8 +196,6 @@ def main(type):
                         x = x + 1
                         print(x)
                         square_selected = (row, col)
-                        br.highlightSquares(
-                            screen, board_state, board.legal_moves, square_selected)
                         playerInput.append(square_selected)
                     if len(playerInput) == 2:
                         from_pos = br.board_position(
@@ -233,23 +226,24 @@ def main(type):
                         if (board.turn == chess.WHITE):
                             print("white")
                             # hhhhhhhhhhhhhhhhh
-                            font = p.font.Font('freesansbold.ttf', 32)
+                            font = p.font.Font('freesansbold.ttf', 52)
                             text = font.render(
                                 'Current Turn: White', True, (0, 0, 0), (255, 255, 255))
                             textRect = text.get_rect()
                             textRect.center = (256, 556)
                             screen.blit(text, textRect)
-
-                        else:
-                            print("black")
-                            # hhhhhhhhhhhhhhhhh
-                            font = p.font.Font('freesansbold.ttf', 32)
-                            text = font.render(
-                                'Black', True, (0, 255, 0), (0, 0, 128))
-                            textRect = text.get_rect()
-                            textRect.center = (200, 550)
-                            screen.blit(text, textRect)
                             # hhhhhhhhhhhhhhhhhhhhhh
+                        else:
+                            if type == 0:
+                                print("black")
+                                # hhhhhhhhhhhhhhhhh
+                                font = p.font.Font('freesansbold.ttf', 52)
+                                text = font.render(
+                                    'Current Turn: Black', True, (0, 0, 0), (255, 255, 255))
+                                textRect = text.get_rect()
+                                textRect.center = (256, 556)
+                                screen.blit(text, textRect)
+                                # hhhhhhhhhhhhhhhhhhhhhh
                         square_selected = ()  # reset square
 
                         playerInput = []  # reset input
@@ -260,20 +254,18 @@ def main(type):
             np0 = AI.convertPos(nextPos[:1])
             np1 = AI.convertPos(nextPos[1:2])
             input = [[p1, p0], [np1, np0]]
-            if chess.Move.from_uci(pos+nextPos) in board.legal_moves:
+            if chess.Move.from_uci(pos + nextPos) in board.legal_moves:
                 history = input
-            check_legal((pos+nextPos), pos, nextPos,
+            check_legal((pos + nextPos), pos, nextPos,
                         np0, np1, board, board_state)
         # loop for updating the game board and screen
         board_state = br.board_init(board)
         br.draw_game_state(screen, board_state, check_legal, square_selected)
         clock.tick(FPS)
-        highlightSquares(screen, board_state,
-                         board.legal_moves, square_selected)
+        highlightSquares(screen, board_state, board.legal_moves, square_selected)
         p.display.flip()
         game_status(board)
-        highlightPrev(screen, board_state, board.legal_moves,
-                      square_selected, history)
+        highlightPrev(screen, board_state, board.legal_moves, square_selected, history)
         p.display.flip()
         game_status(board)
 
