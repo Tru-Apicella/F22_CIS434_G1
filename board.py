@@ -4,6 +4,8 @@ import numpy as np
 import pygame as p
 
 
+
+
 WIDTH = 512
 HEIGHT = 512
 DIMENSION = 8
@@ -38,53 +40,25 @@ def board_position(x, y):
 # load images
 def load_images():
     # WHITE
-    IMAGES['P'] = p.transform.scale(p.image.load(
-        "images_1/wp.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['R'] = p.transform.scale(p.image.load(
-        "images_1/wr.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['N'] = p.transform.scale(p.image.load(
-        "images_1/wn.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['B'] = p.transform.scale(p.image.load(
-        "images_1/wb.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['Q'] = p.transform.scale(p.image.load(
-        "images_1/wq.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['K'] = p.transform.scale(p.image.load(
-        "images_1/wk.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['P'] = p.transform.scale(p.image.load("images_1/wp.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['R'] = p.transform.scale(p.image.load("images_1/wr.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['N'] = p.transform.scale(p.image.load("images_1/wn.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['B'] = p.transform.scale(p.image.load("images_1/wb.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['Q'] = p.transform.scale(p.image.load("images_1/wq.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['K'] = p.transform.scale(p.image.load("images_1/wk.png"), (SQ_SIZE, SQ_SIZE))
+
     # BLACK
-    IMAGES['p'] = p.transform.scale(p.image.load(
-        "images_1/bp.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['r'] = p.transform.scale(p.image.load(
-        "images_1/br.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['n'] = p.transform.scale(p.image.load(
-        "images_1/bn.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['b'] = p.transform.scale(p.image.load(
-        "images_1/bb.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['q'] = p.transform.scale(p.image.load(
-        "images_1/bq.png"), (SQ_SIZE, SQ_SIZE))
-    IMAGES['k'] = p.transform.scale(p.image.load(
-        "images_1/bk.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['p'] = p.transform.scale(p.image.load("images_1/bp.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['r'] = p.transform.scale(p.image.load("images_1/br.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['n'] = p.transform.scale(p.image.load("images_1/bn.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['b'] = p.transform.scale(p.image.load("images_1/bb.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['q'] = p.transform.scale(p.image.load("images_1/bq.png"), (SQ_SIZE, SQ_SIZE))
+    IMAGES['k'] = p.transform.scale(p.image.load("images_1/bk.png"), (SQ_SIZE, SQ_SIZE))
 
-
-# highlights the square selected and shows possible moves the player can make
-def highlightSquares(screen, board_state, check_legal, square_selected):
-    if square_selected != ():
-        row, col = square_selected
-        if board_state[row][col][0] == ('white' if chess.WHITE else 'black'):
-            s = p.Surface((SQ_SIZE, SQ_SIZE))
-            s.set_alpha(100)  # transperancy value
-            s.fill(p.Color('yellow'))
-            screen.blit(s, (col * SQ_SIZE, row * SQ_SIZE))
-
-            # highlight moves from that square (check legal variable needs to be change possibly to get to work)
-            s.fill(p.Color('blue'))
-            for move in check_legal:
-                if move.startRow == row and move.startCol == col:
-                    screen.blit(s, (SQ_SIZE*move.endCol, SQ_SIZE*move.endRow))
-
-
+def highlight_move(screen , board, move, selected_square):
+    pass
 def draw_game_state(screen, board, check_legal, square_selected):
     draw_board(screen)
-    highlightSquares(screen, board, check_legal, square_selected)
     draw_pieces(screen, board)
 
 
