@@ -19,6 +19,18 @@ pawn = ['P', 'p']
 board = chess.Board()
 board_state = br.board_init(board)
 
+def highlightPrev(screen,board_state,legal_move,square_selected,history):
+    if history != 0:
+           s = p.Surface((SQ_SIZE, SQ_SIZE)) 
+           s.set_alpha(50)  #transperancy value
+           s.fill(p.Color('red'))
+           screen.blit(s, (history[0][1] * SQ_SIZE, history[0][0] * SQ_SIZE))
+
+           s = p.Surface((SQ_SIZE, SQ_SIZE)) 
+           s.set_alpha(50)  #transperancy value
+           s.fill(p.Color('green'))
+           screen.blit(s, (history[1][1] * SQ_SIZE, history[1][0] * SQ_SIZE))
+
 def highlightSquares(screen, board_state, legal_move, square_selected):
     if square_selected != ():
         row, col = square_selected
@@ -144,6 +156,7 @@ def game_status(board):
 def main(type):
     p.init()
     x = 0
+    history = 0
     screen = p.display.set_mode((WIDTH, 600))
     clock = p.time.Clock()
     screen.fill(p.Color("White"))
@@ -200,8 +213,11 @@ def main(type):
                             y = y_from
                         whole_pos = from_pos + to_pos
                         print(whole_pos)
+                        if chess.Move.from_uci(whole_pos) in board.legal_moves:
+                            history = playerInput
                         check_legal(whole_pos, from_pos, to_pos,
                                     y, z, board, board_state)
+                        
                         # print whose turn it is for better debugging and player experince
                         if (board.turn == chess.WHITE):
                             print("white")
@@ -224,11 +240,17 @@ def main(type):
                             screen.blit(text, textRect)
                             # hhhhhhhhhhhhhhhhhhhhhh
                         square_selected = ()  # reset square
+                        
                         playerInput = []  # reset input
         elif board.turn == False and type == 1:
             pos, nextPos = AI.AIRunner(board, board_state)
+            p0 = AI.convertPos(pos[:1])
+            p1 = AI.convertPos(pos[1:2])
             np0 = AI.convertPos(nextPos[:1])
             np1 = AI.convertPos(nextPos[1:2])
+            input = [[p1,p0],[np1,np0]]
+            if chess.Move.from_uci(pos+nextPos) in board.legal_moves:
+                history = input
             check_legal((pos+nextPos), pos, nextPos,
                         np0, np1, board, board_state)
         # loop for updating the game board and screen
@@ -238,7 +260,9 @@ def main(type):
         highlightSquares(screen, board_state, board.legal_moves, square_selected)
         p.display.flip()
         game_status(board)
-
+        highlightPrev(screen, board_state, board.legal_moves, square_selected,history)
+        p.display.flip()
+        game_status(board)
 
 # call main to avoid any errors
 if __name__ == "__main__":
