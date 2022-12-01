@@ -3,6 +3,7 @@ import random
 import random
 
 MAX,MIN = 10000,-10000
+CNODE = 0
 
 
 PBias = [
@@ -188,15 +189,21 @@ def createMove(board,board_state,det):
             p1[createdNode].piece = board_state[origPos2[i]][origPos[i]]
             (p1[createdNode].x).append(newPos2[i])
             (p1[createdNode].y).append(newPos[i])
-            nboard = game.check_legal((p1[createdNode].pos+p1[createdNode].nextPos[0]),p1[createdNode].pos,p1[createdNode].nextPos[0],p1[createdNode].y[0],p1[createdNode].x[0],board, board_state)
-            nboard_state = game.br.board_init(nboard)
-            (p1[createdNode].boards).append(nboard_state)
-            board.pop()
+            try:
+                nboard = game.check_legal((p1[createdNode].pos+p1[createdNode].nextPos[0]),p1[createdNode].pos,p1[createdNode].nextPos[0],p1[createdNode].y[0],p1[createdNode].x[0],board, board_state)
+                nboard_state = game.br.board_init(nboard)
+                (p1[createdNode].boards).append(nboard_state)
+                board.pop()
+            except:
+                print("lazy bug fix")
             createdNode+=1
         i+=1
     p1 = list(filter(None, p1))
     if det == 0:
         random.shuffle(p1)
+        global CNODE
+        h = CNODE + createdNode
+        CNODE= h
         return p1,createdNode
     elif det ==1:
         return p1
@@ -263,11 +270,14 @@ def createEval(p1, createdNode,board_state):
     return p1
 
 def otherSearchTree(p1):
-    if p1[0].nodes:
-        for x in enumerate(p1):
-            for y in enumerate(x[1].nodes):
-                lowest, bestPos,bestNPos = otherSearchTree(y[1])
-                x[1].eval[y[0]] = lowest-x[1].eval[y[0]]
+    try:
+        if p1[0].nodes:
+            for x in enumerate(p1):
+                for y in enumerate(x[1].nodes):
+                    lowest, bestPos,bestNPos = otherSearchTree(y[1])
+                    x[1].eval[y[0]] = lowest-x[1].eval[y[0]]
+    except:
+        print("This try except should fix the error i was having")
     lowest = 9999  
     for x in p1:
         if lowest > min(x.eval):
@@ -290,6 +300,7 @@ def getBestMove(self):
 def AIRunner(board,board_state):
     p1 = createTree(board,board_state,0,0,MIN,MAX)
     highest, bestPos,bestNPos = otherSearchTree(p1)
+    print(CNODE)
     return bestPos,bestNPos
 
 
