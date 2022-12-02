@@ -246,10 +246,14 @@ def createTree(board, board_state, depth, iters, alpha, beta):
                     depth -= 1
                     board.pop()
                     (p1[x].nodes).append(tmp)
-                    best = max(best, val)
-                    alpha = max(alpha, best)
+                    try:
+                        best = max(best, val)
+                    except:
+                        val.append(best)
+                        best = max(val)
+                    alpha = max(alpha,best)
 
-                    if beta >= alpha:
+                    if beta <= alpha:
                         break
         if iters != 1:
             iters -= 1
@@ -269,10 +273,15 @@ def createTree(board, board_state, depth, iters, alpha, beta):
                     depth -= 1
                     board.pop()
                     (p1[x].nodes).append(tmp)
-                    best = max(best, val)
-                    best = max(beta, best)
+                    try:
+                        val.append(best)
+                        best = min(val)
+                    except:
+                        best = min(best, val)
 
-                    if beta >= alpha:
+                    beta = min(beta, best)
+
+                    if beta <= alpha:
                         break
 
         if iters != 1:
