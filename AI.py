@@ -254,7 +254,7 @@ def createTree(board, board_state, depth, iters, alpha, beta):
                     alpha = max(alpha,best)
 
                     if beta <= alpha:
-                        break
+                        return p1,depth,best
         if iters != 1:
             iters -= 1
             return p1, depth, best
@@ -282,7 +282,7 @@ def createTree(board, board_state, depth, iters, alpha, beta):
                     beta = min(beta, best)
 
                     if beta <= alpha:
-                        break
+                        return p1,depth,best
 
         if iters != 1:
             iters -= 1
