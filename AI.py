@@ -227,22 +227,21 @@ def createTree(board, board_state, depth, iters, alpha, beta):
     p1, createdNode = createMove(board, board_state, 0)
     p1 = createEval(p1, createdNode, board_state)
     if depth == 2:
-        lowest = 9999
-        for x in p1:
-            if lowest < min(x.eval):
-                lowest = min(x.eval)
-        return p1, depth, lowest
+        if board.turn == False:
+            lowest = p1[0].eval
+            return p1, depth, lowest
+        elif board.turn == False:
+            highest = p1[0].eval
+            return p1, depth, highest
     if board.turn == True:
         best = MIN
         for x in range(createdNode):
             for y in range(len(p1[x].x)):
                 if depth < 2:
-                    nboard = game.check_legal(
-                        (p1[x].pos+p1[x].nextPos[y]), p1[x].pos, p1[x].nextPos[y], p1[x].y[y], p1[x].x[y], board, board_state)
+                    nboard = game.check_legal((p1[x].pos+p1[x].nextPos[y]), p1[x].pos, p1[x].nextPos[y], p1[x].y[y], p1[x].x[y], board, board_state)
                     nboard_state = game.br.board_init(nboard)
                     depth += 1
-                    tmp, depth, val = (createTree(
-                        nboard, nboard_state, depth, iters, alpha, beta))
+                    tmp, depth, val = (createTree(nboard, nboard_state, depth, iters, alpha, beta))
                     depth -= 1
                     board.pop()
                     (p1[x].nodes).append(tmp)
@@ -264,12 +263,10 @@ def createTree(board, board_state, depth, iters, alpha, beta):
         for x in range(createdNode):
             for y in range(len(p1[x].x)):
                 if depth < 2:
-                    nboard = game.check_legal(
-                        (p1[x].pos+p1[x].nextPos[y]), p1[x].pos, p1[x].nextPos[y], p1[x].y[y], p1[x].x[y], board, board_state)
+                    nboard = game.check_legal((p1[x].pos+p1[x].nextPos[y]), p1[x].pos, p1[x].nextPos[y], p1[x].y[y], p1[x].x[y], board, board_state)
                     nboard_state = game.br.board_init(nboard)
                     depth += 1
-                    tmp, depth, val = (createTree(
-                        nboard, nboard_state, depth, iters, alpha, beta))
+                    tmp, depth, val = (createTree(nboard, nboard_state, depth, iters, alpha, beta))
                     depth -= 1
                     board.pop()
                     (p1[x].nodes).append(tmp)
@@ -299,24 +296,42 @@ def createEval(p1, createdNode, board_state):
 
 
 def otherSearchTree(p1):
-    try:
-        if p1[0].nodes:
-            for x in enumerate(p1):
-                for y in enumerate(x[1].nodes):
-                    lowest, bestPos, bestNPos = otherSearchTree(y[1])
-                    x[1].eval[y[0]] = lowest-x[1].eval[y[0]]
-    except:
-        print("This try except should fix the error i was having")
-    lowest = 9999
-    for x in p1:
-        if lowest > min(x.eval):
-            lowest = min(x.eval)
-            bestPos = x.pos
-            for y in enumerate(x.eval):
-                if y[1] == lowest:
-                    bestNPos = x.nextPos[y[0]]
-
-    return lowest, bestPos, bestNPos
+    if p1[0].piece == 'p' or p1[0].piece == 'r' or p1[0].piece == 'n' or p1[0].piece == 'b' or p1[0].piece == 'q' or p1[0].piece == 'k':
+        try:
+            if p1[0].nodes:
+                for x in enumerate(p1):
+                    for y in enumerate(x[1].nodes):
+                        lowest, bestPos, bestNPos = otherSearchTree(y[1])
+                        x[1].eval[y[0]] = lowest-x[1].eval[y[0]]
+        except:
+            print("This try except should fix the error i was having")
+        lowest = 9999
+        for x in p1:
+            if lowest > min(x.eval):
+                lowest = min(x.eval)
+                bestPos = x.pos
+                for y in enumerate(x.eval):
+                    if y[1] == lowest:
+                        bestNPos = x.nextPos[y[0]]
+        return lowest, bestPos, bestNPos
+    elif p1[0].piece == 'P' or p1[0].piece == 'R' or p1[0].piece == 'N' or p1[0].piece == 'B' or p1[0].piece == 'Q' or p1[0].piece == 'K':
+        try:
+            if p1[0].nodes:
+                for x in enumerate(p1):
+                    for y in enumerate(x[1].nodes):
+                        highest, bestPos, bestNPos = otherSearchTree(y[1])
+                        x[1].eval[y[0]] = highest+x[1].eval[y[0]]
+        except:
+            print("This try except should fix the error i was having")
+        highest = -9999
+        for x in p1:
+            if highest < max(x.eval):
+                highest = max(x.eval)
+                bestPos = x.pos
+                for y in enumerate(x.eval):
+                    if y[1] == highest:
+                        bestNPos = x.nextPos[y[0]]
+        return highest, bestPos, bestNPos
 
 
 # created tree of the best moves for ai & randomizes the best move so ai doesnt choice same thing everytime
