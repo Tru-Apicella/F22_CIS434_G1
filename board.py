@@ -55,9 +55,7 @@ def load_images():
     IMAGES['q'] = p.transform.scale(p.image.load("images_1/bq.png"), (SQ_SIZE, SQ_SIZE))
     IMAGES['k'] = p.transform.scale(p.image.load("images_1/bk.png"), (SQ_SIZE, SQ_SIZE))
 
-def highlight_move(screen , board, move, selected_square):
-    pass
-def draw_game_state(screen, board, check_legal, square_selected):
+def draw_game_state(screen, board):
     draw_board(screen)
     draw_pieces(screen, board)
 

@@ -63,7 +63,7 @@ def update_board(board):
     return returned
 
 
-def check_legal(move, from_pos, to_pos, y, z, board, board_state,permission):
+def check_legal(move, from_pos, to_pos, y, z, board, board_state):
     check_promo = board_state[z][y]
     print(check_promo)
     print(y, z)
@@ -85,12 +85,7 @@ def check_legal(move, from_pos, to_pos, y, z, board, board_state,permission):
     if chess.Move.from_uci(move) in board.legal_moves:
         print(list(board.legal_moves))
         board.push_san(move)
-        return board, 0
-    elif chess.Move.from_uci(move) in board.pseudo_legal_moves and permission == 1:
-        tmp = chess.Move.from_uci(move)
-        print(list(board.legal_moves))
-        board.push(tmp)
-        return board, 1
+        return board
     else:
         print(list(board.legal_moves))
         print("not legal")
@@ -122,37 +117,45 @@ def game_status(board):
         msg = "draw: stalemate"
         print(msg)
         font = p.font.Font('freesansbold.ttf', 32)
-        text = font.render('draw: stalemate', True, (0, 255, 0), (0, 0, 128))
+        text = font.render('draw: stalemate', True, (0, 0, 0), (255, 255, 255))
         textRect = text.get_rect()
-        textRect.center = (200, 550)
+        textRect.center = (256, 556)
         screen.blit(text, textRect)
+        p.display.flip()
+        os.system("pause")
 
     elif board.is_fivefold_repetition():
         msg = "draw: 5-fold repetition"
         print(msg)
         font = p.font.Font('freesansbold.ttf', 32)
-        text = font.render('draw: 5-fold repetition', True, (0, 255, 0), (0, 0, 128))
+        text = font.render('draw: 5-fold repetition', True, (0, 0, 0), (255, 255, 255))
         textRect = text.get_rect()
-        textRect.center = (200, 550)
+        textRect.center = (256, 556)
         screen.blit(text, textRect)
+        p.display.flip()
+        os.system("pause")
 
     elif board.is_insufficient_material():
         msg = "draw: insufficient material"
         print(msg)
         font = p.font.Font('freesansbold.ttf', 32)
-        text = font.render('draw: insufficient material', True, (0, 255, 0), (0, 0, 128))
+        text = font.render('draw: insufficient material', True, (0, 0, 0), (255, 255, 255))
         textRect = text.get_rect()
-        textRect.center = (200, 550)
+        textRect.center = (256, 556)
         screen.blit(text, textRect)
+        p.display.flip()
+        os.system("pause")
 
     elif board.can_claim_draw():
         msg = "draw: claim"
         print(msg)
         font = p.font.Font('freesansbold.ttf', 32)
-        text = font.render('draw: claim', True, (0, 255, 0), (0, 0, 128))
+        text = font.render('draw: claim', True, (0, 0, 0), (255, 255, 255))
         textRect = text.get_rect()
-        textRect.center = (200, 550)
+        textRect.center = (256, 556)
         screen.blit(text, textRect)
+        p.display.flip()
+        os.system("pause")
 
 
 # adding a type for main so that when 0 its player vs play and 1 is player vs ai
@@ -213,7 +216,7 @@ def main(type):
                         if chess.Move.from_uci(whole_pos) in board.legal_moves:
                             history = playerInput
                         check_legal(whole_pos, from_pos, to_pos,
-                                    y, z, board, board_state,0)
+                                    y, z, board, board_state)
 
                         # print whose turn it is for better debugging and player experince
                         if board.turn == chess.WHITE and type == 0:
@@ -245,19 +248,11 @@ def main(type):
             input = [[p1, p0], [np1, np0]]
             if chess.Move.from_uci(pos + nextPos) in board.legal_moves:
                 history = input
-            check_legal((pos + nextPos), pos, nextPos,
-                        np0, np1, board, board_state,0)
-            '''
-            kings=0
-            for x in board_state:
-                for y in x:
-                    if y == 'k' or y == 'K':
-                        kings +=1
-            if kings != 2:'''
+            check_legal((pos + nextPos), pos, nextPos,np0, np1, board, board_state)
 
         # loop for updating the game board and screen
         board_state = br.board_init(board)
-        br.draw_game_state(screen, board_state, check_legal, square_selected)
+        br.draw_game_state(screen, board_state)
         clock.tick(FPS)
         highlightSquares(screen, board_state, board.legal_moves, square_selected)
         p.display.flip()
